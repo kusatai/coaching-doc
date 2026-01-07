@@ -71,54 +71,51 @@
             width: 100%;
             scroll-snap-align: start;
             position: relative;
-            overflow: hidden; /* コンテンツのはみ出し防止 */
+            /* スライド内スクロールを許可し、はみ出し防止 */
+            overflow-y: auto; 
+            overflow-x: hidden;
         }
 
         /* カスタムスクロールバー（非表示にする場合） */
-        .scroll-container::-webkit-scrollbar {
+        .scroll-container::-webkit-scrollbar,
+        .slide-section::-webkit-scrollbar {
             width: 0px;
             background: transparent;
         }
 
-        /* タイムライン用の装飾（PC用） */
-        .timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: #cbd5e1;
-            transform: translateX(-50%);
-            z-index: 0;
-        }
-        
         /* 共通カードスタイル */
         .card-base {
             background-color: white;
-            border-radius: 1.5rem; /* rounded-3xl */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            border-radius: 1rem; /* rounded-2xl for mobile */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
         }
+        @media (min-width: 768px) {
+            .card-base {
+                border-radius: 1.5rem; /* rounded-3xl for PC */
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+        }
         .card-base:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* hover:shadow-xl */
-            transform: translateY(-4px);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     </style>
 </head>
 <body class="text-gray-800 font-sans antialiased">
 
     <!-- 1. プログレスバー -->
-    <div class="fixed top-0 left-0 w-full h-2 bg-gray-200 z-50">
+    <div class="fixed top-0 left-0 w-full h-1 md:h-2 bg-gray-200 z-50">
         <div id="progress-bar" class="h-full bg-salmon transition-all duration-300 ease-out" style="width: 0%;"></div>
     </div>
 
     <!-- 2. ナビゲーションドット (TOC) -->
-    <nav class="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3">
-        <button onclick="scrollToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Top"></button>
-        <button onclick="scrollToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Coaching"></button>
-        <button onclick="scrollToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Co-Active"></button>
-        <button onclick="scrollToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="My Journey"></button>
-        <button onclick="scrollToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Flow"></button>
+    <nav class="fixed right-2 md:right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-2 md:gap-3">
+        <button onclick="scrollToSlide(0)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Top"></button>
+        <button onclick="scrollToSlide(1)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Coaching"></button>
+        <button onclick="scrollToSlide(2)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Co-Active"></button>
+        <button onclick="scrollToSlide(3)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="My Journey"></button>
+        <button onclick="scrollToSlide(4)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Flow"></button>
     </nav>
 
     <!-- メインスクロールコンテナ -->
@@ -127,23 +124,23 @@
         <!-- ==============================
              Slide 1: タイトル「コーチングって何？」
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-salmon text-white relative">
+        <section class="slide-section bg-gradient-to-br from-slate-900 via-slate-800 to-salmon text-white relative">
             <!-- 背景装飾 -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                <div class="absolute top-1/4 left-1/4 text-6xl animate-float opacity-30">✨</div>
-                <div class="absolute top-1/3 right-1/4 text-5xl animate-float-delayed opacity-30">💡</div>
-                <div class="absolute bottom-1/4 left-1/3 text-4xl animate-float-slow opacity-30">🌟</div>
+                <div class="absolute top-1/4 left-1/4 text-4xl md:text-6xl animate-float opacity-30">✨</div>
+                <div class="absolute top-1/3 right-1/4 text-3xl md:text-5xl animate-float-delayed opacity-30">💡</div>
+                <div class="absolute bottom-1/4 left-1/3 text-2xl md:text-4xl animate-float-slow opacity-30">🌟</div>
             </div>
 
-            <div class="container mx-auto px-6 text-center z-10 max-w-4xl">
-                
-                <h1 class="text-4xl md:text-6xl font-black mb-8 leading-tight drop-shadow-lg">
+            <!-- Mobile: pt-12 (約48px) に削減 -->
+            <div class="container mx-auto px-4 text-center z-10 max-w-4xl pt-12 pb-12 md:py-10 flex flex-col justify-start md:justify-center min-h-screen">
+                <h1 class="text-3xl md:text-6xl font-black mb-6 md:mb-8 leading-tight drop-shadow-lg shrink-0">
                     <span class="inline-block animate-float mr-2">🤔</span>
                     コーチングって何？
                 </h1>
                 
-                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 max-w-2xl mx-auto border border-white/10 shadow-2xl">
-                    <p class="text-base md:text-lg text-gray-100 leading-relaxed">
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-2xl mx-auto border border-white/10 shadow-2xl shrink-0">
+                    <p class="text-sm md:text-lg text-gray-100 leading-relaxed">
                         この資料では、<br>
                         <strong>「そもそもコーチングとは何か？」</strong><br>
                         <strong>「具体的にどのように進むのか？」</strong><br>
@@ -151,79 +148,79 @@
                     </p>
                 </div>
 
-                <div class="mt-12 animate-bounce opacity-80">
-                    <span class="text-sm">Scroll Down</span><br>
+                <div class="mt-8 md:mt-12 animate-bounce opacity-80 shrink-0">
+                    <span class="text-xs md:text-sm">Scroll Down</span><br>
                     ⬇
                 </div>
             </div>
 
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60 max-w-xs md:max-w-md">
+            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60 max-w-[200px] md:max-w-md">
                 Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。
             </div>
         </section>
 
         <!-- ==============================
              Slide 2: コーチングって？
-             更新：メイン定義カードの背景色を薄いオレンジに変更
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-white relative">
-            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-8 text-slate-800">
+        <section class="slide-section bg-white relative">
+            <!-- Mobile: pt-12 -->
+            <div class="container mx-auto px-4 md:px-6 max-w-6xl pt-12 pb-12 md:py-0 flex flex-col justify-start md:justify-center min-h-screen">
+                <h2 class="text-2xl md:text-4xl font-black text-center mb-6 md:mb-8 text-slate-800 shrink-0">
                     <span class="inline-block animate-float mr-2">💡</span>
                     コーチングって？
                 </h2>
 
-                <div class="max-w-4xl mx-auto text-center mb-16 w-full">
-                    <!-- 定義：カードデザイン（背景色変更 bg-orange-50） -->
-                    <div class="card-base p-8 md:p-10 text-left md:text-center shadow-lg relative flex flex-col items-center bg-orange-50">
-                        <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl mb-4 text-salmon shadow-sm">
+                <div class="max-w-4xl mx-auto text-center mb-8 md:mb-16 w-full shrink-0">
+                    <!-- 定義 -->
+                    <div class="card-base p-6 md:p-10 text-left md:text-center shadow-md relative flex flex-col items-center bg-orange-50/80 border border-orange-100">
+                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-2xl md:text-4xl mb-3 md:mb-4 text-salmon shadow-sm shrink-0">
                             🔥
                         </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4">
+                        <h3 class="text-lg md:text-2xl font-bold text-slate-800 mb-2 md:mb-4">
                             行動の力を引き出すコミュニケーション
                         </h3>
-                        <p class="text-slate-700 text-lg md:text-xl leading-relaxed">
+                        <p class="text-slate-700 text-sm md:text-xl leading-relaxed">
                             本人特有の<span class="text-salmon font-bold">感情</span>や<span class="text-salmon font-bold">思考</span>の働きを<br class="hidden md:inline">
-                            <span class="font-bold border-b-4 border-salmon/30">行動の力</span>に変えることで、<br>
+                            <span class="font-bold border-b-4 border-salmon/30">行動の力</span>に変えることで、<br class="inline md:block">
                             <span class="font-bold">目標達成</span>や<span class="font-bold">自己実現</span>を促す技術です。
                         </p>
                     </div>
                 </div>
 
-                <p class="text-center text-gray-400 font-bold mb-8 text-sm tracking-widest">ー 他との違い ー</p>
+                <p class="text-center text-gray-400 font-bold mb-4 md:mb-8 text-xs md:text-sm tracking-widest shrink-0">ー 他との違い ー</p>
 
                 <!-- 比較 -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 w-full max-w-6xl mx-auto shrink-0 pb-4">
                     <!-- Consulting -->
-                    <div class="card-base p-6 flex flex-col items-center text-center hover:bg-blue-50/50 transition-colors border border-transparent hover:border-blue-100">
-                        <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-3xl mb-4 text-blue-500">
+                    <div class="card-base p-4 md:p-6 flex flex-col items-center text-center hover:bg-blue-50/50 transition-colors border border-transparent hover:border-blue-100">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-blue-50 flex items-center justify-center text-xl md:text-3xl mb-2 md:mb-4 text-blue-500">
                             👔
                         </div>
-                        <h4 class="text-lg font-bold text-slate-700 mb-2">コンサルティング</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">専門知識に基づき<br>「解決策や戦略」を提供</p>
+                        <h4 class="text-sm md:text-lg font-bold text-slate-700 mb-1 md:mb-2">コンサルティング</h4>
+                        <p class="text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed">専門知識に基づき<br class="md:hidden">「解決策や戦略」を提供</p>
                     </div>
 
                     <!-- Mentoring -->
-                    <div class="card-base p-6 flex flex-col items-center text-center hover:bg-green-50/50 transition-colors border border-transparent hover:border-green-100">
-                        <div class="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-3xl mb-4 text-green-500">
+                    <div class="card-base p-4 md:p-6 flex flex-col items-center text-center hover:bg-green-50/50 transition-colors border border-transparent hover:border-green-100">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-green-50 flex items-center justify-center text-xl md:text-3xl mb-2 md:mb-4 text-green-500">
                             🤝
                         </div>
-                        <h4 class="text-lg font-bold text-slate-700 mb-2">メンタリング</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">先輩の立場から<br>「経験による助言」を提供</p>
+                        <h4 class="text-sm md:text-lg font-bold text-slate-700 mb-1 md:mb-2">メンタリング</h4>
+                        <p class="text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed">先輩の立場から<br class="md:hidden">「経験による助言」を提供</p>
                     </div>
 
                     <!-- Counseling -->
-                    <div class="card-base p-6 flex flex-col items-center text-center hover:bg-purple-50/50 transition-colors border border-transparent hover:border-purple-100">
-                        <div class="w-16 h-16 rounded-2xl bg-purple-50 flex items-center justify-center text-3xl mb-4 text-purple-500">
+                    <div class="card-base p-4 md:p-6 flex flex-col items-center text-center hover:bg-purple-50/50 transition-colors border border-transparent hover:border-purple-100">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-purple-50 flex items-center justify-center text-xl md:text-3xl mb-2 md:mb-4 text-purple-500">
                             🩹
                         </div>
-                        <h4 class="text-lg font-bold text-slate-700 mb-2">カウンセリング</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">心理的な不調に対し<br>「癒しと回復」を提供</p>
+                        <h4 class="text-sm md:text-lg font-bold text-slate-700 mb-1 md:mb-2">カウンセリング</h4>
+                        <p class="text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed">心理的な不調に対し<br class="md:hidden">「癒しと回復」を提供</p>
                     </div>
                 </div>
             </div>
 
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
+            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
                 Co-Active Coaching®︎
             </div>
         </section>
@@ -231,73 +228,80 @@
         <!-- ==============================
              Slide 3: 提供するのはCo-Activeコーチング
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-gradient-to-b from-white to-slate-50 relative">
-            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
+        <section class="slide-section bg-gradient-to-b from-white to-slate-50 relative">
+            <!-- Mobile: pt-12 -->
+            <div class="container mx-auto px-4 md:px-6 max-w-6xl pt-12 pb-12 md:py-0 flex flex-col justify-start md:justify-center min-h-screen">
                 
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-8 text-slate-800">
+                <h2 class="text-2xl md:text-4xl font-black text-center mb-6 md:mb-8 text-slate-800 shrink-0">
                     提供するのは<br class="md:hidden"><span class="text-salmon">Co-Activeコーチング</span>
                 </h2>
 
                 <!-- 趣旨 -->
-                <div class="text-center mb-12">
-                    <div class="inline-block p-4 rounded-full bg-orange-50 mb-4 animate-float border-2 border-white shadow-sm">
-                        <div class="text-5xl">🧭</div>
+                <div class="text-center mb-8 md:mb-12 shrink-0">
+                    <div class="inline-block p-3 md:p-4 rounded-full bg-orange-50 mb-2 md:mb-4 animate-float border-2 border-white shadow-sm">
+                        <div class="text-3xl md:text-5xl">🧭</div>
                     </div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
+                    <h3 class="text-lg md:text-3xl font-bold text-slate-800 mb-2 md:mb-4 px-2">
                         「話すテーマ」は、<br class="md:hidden">内面への旅のきっかけに過ぎません
                     </h3>
-                    <p class="text-slate-600 text-lg leading-relaxed max-w-2xl mx-auto">
+                    <p class="text-slate-600 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto px-2">
                         具体的な悩みや目標の裏側にある、<br class="hidden md:inline">あなた自身の<span class="font-bold border-b-4 border-salmon/30">本当の願いや可能性</span>を探求します。<br>
-                        <span class="text-sm text-gray-400 mt-2 block">（※そのため、具体的な解決策のアドバイスは行いません）</span>
+                        <span class="text-xs md:text-sm text-gray-400 mt-2 block">（※具体的な解決策のアドバイスは行いません）</span>
                     </p>
                 </div>
 
                 <!-- 特徴3点 -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl mx-auto mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-8 w-full max-w-6xl mx-auto mb-8 md:mb-12 shrink-0">
                     <!-- Feature 1 -->
-                    <div class="flex flex-col items-center text-center p-6 rounded-[1.5rem] bg-red-50/50 hover:bg-red-50 transition-colors duration-300">
-                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-3xl mb-4 text-salmon shadow-sm">
+                    <div class="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-red-50/50 hover:bg-red-50 transition-colors duration-300">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white flex items-center justify-center text-xl md:text-3xl mr-4 md:mr-0 md:mb-4 text-salmon shadow-sm shrink-0">
                             💎
                         </div>
-                        <h4 class="text-lg font-bold text-slate-800 mb-2">クライアントへの信頼</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。
-                        </p>
+                        <div>
+                            <h4 class="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2">クライアントへの信頼</h4>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+                                あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="flex flex-col items-center text-center p-6 rounded-[1.5rem] bg-blue-50/50 hover:bg-blue-50 transition-colors duration-300">
-                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-3xl mb-4 text-softblue shadow-sm">
+                    <div class="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-blue-50/50 hover:bg-blue-50 transition-colors duration-300">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white flex items-center justify-center text-xl md:text-3xl mr-4 md:mr-0 md:mb-4 text-softblue shadow-sm shrink-0">
                             ⚖️
                         </div>
-                        <h4 class="text-lg font-bold text-slate-800 mb-2">あり方と行動</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。
-                        </p>
+                        <div>
+                            <h4 class="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2">あり方と行動</h4>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+                                目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Feature 3 -->
-                    <div class="flex flex-col items-center text-center p-6 rounded-[1.5rem] bg-emerald-50/50 hover:bg-emerald-50 transition-colors duration-300">
-                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-3xl mb-4 text-emerald-600 shadow-sm">
+                    <div class="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-emerald-50/50 hover:bg-emerald-50 transition-colors duration-300">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white flex items-center justify-center text-xl md:text-3xl mr-4 md:mr-0 md:mb-4 text-emerald-600 shadow-sm shrink-0">
                             🌏
                         </div>
-                        <h4 class="text-lg font-bold text-slate-800 mb-2">人生全体を扱う</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。
-                        </p>
+                        <div>
+                            <h4 class="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2">人生全体を扱う</h4>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+                                テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- CTIリンク -->
-                <div class="text-center">
-                    <a href="https://www.thecoaches.co.jp/" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-ctipurple to-purple-800 text-white rounded-full hover:shadow-xl transition-all shadow-md transform hover:-translate-y-1 border-t border-white/20">
-                        <span class="font-bold tracking-widest text-sm">CTI JAPAN 公式サイト</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <div class="text-center pb-12 md:pb-0 shrink-0">
+                    <a href="https://www.thecoaches.co.jp/" target="_blank" class="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-ctipurple to-purple-800 text-white rounded-full hover:shadow-xl transition-all shadow-md transform hover:-translate-y-1 border-t border-white/20">
+                        <span class="font-bold tracking-widest text-xs md:text-sm">CTI JAPAN 公式サイト</span>
+                        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
                 </div>
             </div>
 
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
+            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
                 Co-Active Coaching®︎
             </div>
         </section>
@@ -305,81 +309,82 @@
         <!-- ==============================
              Slide 4: 日下のCo-Activeの旅
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-green-50 overflow-y-auto">
-            <div class="container mx-auto px-6 max-w-4xl py-12 md:py-0">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-8 md:mb-12 text-slate-800">
+        <section class="slide-section bg-green-50 overflow-y-auto">
+            <!-- Mobile: pt-12 -->
+            <div class="container mx-auto px-4 md:px-6 max-w-4xl pt-12 pb-12 md:py-12 flex flex-col justify-start md:justify-center min-h-screen">
+                <h2 class="text-2xl md:text-4xl font-black text-center mb-8 md:mb-12 text-slate-800 shrink-0">
                     <span class="inline-block animate-float mr-2">🌱</span> 日下のCo-Activeの旅
                 </h2>
 
-                <div class="relative">
-                    <!-- Line -->
+                <div class="relative pl-0 md:pl-0 w-full shrink-0">
+                    <!-- Line (Centered on PC, Left on Mobile) -->
                     <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-green-200 transform -translate-x-1/2"></div>
-                    <div class="md:hidden absolute left-6 top-0 bottom-0 w-0.5 bg-green-200"></div>
+                    <div class="absolute left-3 md:hidden top-0 bottom-0 w-0.5 bg-green-200"></div>
 
                     <!-- Timeline Items -->
-                    <div class="space-y-8 md:space-y-0">
+                    <div class="space-y-4 md:space-y-0">
                         <!-- Item 1: Left Side -->
-                        <div class="relative flex md:justify-start md:mb-8 items-center group">
+                        <div class="relative flex justify-end md:justify-start md:mb-8 items-center group">
                             <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-400 border-4 border-green-100 z-10"></span>
-                            <div class="md:w-1/2 pl-16 md:pl-0 md:pr-12">
-                                <div class="card-base p-6 relative hover:bg-green-50/50">
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-400 border-4 border-green-100 z-10"></span>
-                                    <div class="text-xs text-green-600 font-bold mb-1 tracking-wider">STORY</div>
-                                    <h3 class="font-bold text-lg mb-2 text-slate-800">きっかけ（課題感）</h3>
-                                    <p class="text-sm text-gray-600">自分自身のリーダーシップや対人支援への課題感から、CTIの門を叩きました。</p>
+                            <div class="w-full pl-8 md:w-1/2 md:pl-0 md:pr-12">
+                                <div class="card-base p-4 md:p-6 relative hover:bg-green-50/50">
+                                    <span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-400 border-2 border-green-100 z-10"></span>
+                                    <div class="text-[10px] md:text-xs text-green-600 font-bold mb-1 tracking-wider">STORY</div>
+                                    <h3 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-slate-800">きっかけ（課題感）</h3>
+                                    <p class="text-xs md:text-sm text-gray-600">自分自身のリーダーシップや対人支援への課題感から、CTIの門を叩きました。</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Item 2: Right Side -->
-                        <div class="relative flex md:justify-end md:mb-8 items-center group">
+                        <div class="relative flex justify-end items-center group">
                             <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-500 border-4 border-green-100 z-10"></span>
-                            <div class="md:w-1/2 pl-16 md:pl-12 md:pr-0 text-left">
-                                <div class="card-base p-6 relative hover:bg-green-50/50">
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-500 border-4 border-green-100 z-10"></span>
-                                    <div class="text-xs text-green-600 font-bold mb-1 tracking-wider">2025 GW前</div>
-                                    <h3 class="font-bold text-lg mb-2 text-slate-800">基礎コース修了</h3>
-                                    <p class="text-sm text-gray-600">Co-Activeの土台となる考え方をインストール。</p>
+                            <div class="w-full pl-8 md:w-1/2 md:pl-12 md:pr-0 text-left">
+                                <div class="card-base p-4 md:p-6 relative hover:bg-green-50/50">
+                                    <span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-500 border-2 border-green-100 z-10"></span>
+                                    <div class="text-[10px] md:text-xs text-green-600 font-bold mb-1 tracking-wider">2025 GW前</div>
+                                    <h3 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-slate-800">基礎コース修了</h3>
+                                    <p class="text-xs md:text-sm text-gray-600">Co-Activeの土台となる考え方をインストール。</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Item 3: Left Side -->
-                        <div class="relative flex md:justify-start md:mb-8 items-center group">
+                        <div class="relative flex justify-end md:justify-start md:mb-8 items-center group">
                             <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-600 border-4 border-green-100 z-10"></span>
-                            <div class="md:w-1/2 pl-16 md:pl-0 md:pr-12">
-                                <div class="card-base p-6 relative hover:bg-green-50/50">
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-600 border-4 border-green-100 z-10"></span>
-                                    <div class="text-xs text-green-600 font-bold mb-1 tracking-wider">2025 6〜9月</div>
-                                    <h3 class="font-bold text-lg mb-2 text-slate-800">応用コース修了</h3>
-                                    <p class="text-sm text-gray-600">4つのコースを通じて、コーチングの幅を広げました。</p>
+                            <div class="w-full pl-8 md:w-1/2 md:pl-0 md:pr-12">
+                                <div class="card-base p-4 md:p-6 relative hover:bg-green-50/50">
+                                    <span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-600 border-2 border-green-100 z-10"></span>
+                                    <div class="text-[10px] md:text-xs text-green-600 font-bold mb-1 tracking-wider">2025 6〜9月</div>
+                                    <h3 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-slate-800">応用コース修了</h3>
+                                    <p class="text-xs md:text-sm text-gray-600">4つのコースを通じて、コーチングの幅を広げました。</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Item 4: Right Side (Current) -->
-                        <div class="relative flex md:justify-end md:mb-8 items-center group">
+                        <div class="relative flex justify-end items-center group">
                             <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-6 h-6 rounded-full bg-emerald-500 border-4 border-white animate-pulse z-20"></span>
-                            <div class="md:w-1/2 pl-16 md:pl-12 md:pr-0 text-left">
-                                <div class="card-base p-6 relative border-2 border-emerald-400 transform md:scale-105">
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-6 h-6 rounded-full bg-emerald-500 border-4 border-white animate-pulse z-10"></span>
-                                    <div class="inline-block bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-full mb-2">NOW</div>
-                                    <div class="text-xs text-emerald-600 font-bold mb-1 tracking-wider">2026 1月〜</div>
-                                    <h3 class="font-bold text-xl mb-2 text-slate-800">上級コース受講中</h3>
-                                    <p class="text-sm text-gray-600">プロフェッショナルとしての認定資格取得に向けて、実践と研鑽の日々。</p>
+                            <div class="w-full pl-8 md:w-1/2 md:pl-12 md:pr-0 text-left">
+                                <div class="card-base p-4 md:p-6 relative border-2 border-emerald-400 transform md:scale-105">
+                                    <span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-4 h-4 rounded-full bg-emerald-500 border-2 border-white animate-pulse z-10"></span>
+                                    <div class="inline-block bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-full mb-1">NOW</div>
+                                    <div class="text-[10px] md:text-xs text-emerald-600 font-bold mb-1 tracking-wider">2026 1月〜</div>
+                                    <h3 class="font-bold text-base md:text-xl mb-1 md:mb-2 text-slate-800">上級コース受講中</h3>
+                                    <p class="text-xs md:text-sm text-gray-600">プロフェッショナルとしての認定資格取得に向けて、実践と研鑽の日々。</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Item 5: Left Side (Future) -->
-                        <div class="relative flex md:justify-start items-center opacity-70 hover:opacity-100 transition-opacity">
+                        <div class="relative flex justify-end md:justify-start items-center opacity-70 hover:opacity-100 transition-opacity">
                             <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-200 border-4 border-green-100 z-10"></span>
-                            <div class="md:w-1/2 pl-16 md:pl-0 md:pr-12">
-                                <div class="card-base p-6 relative bg-transparent border-2 border-dashed border-green-300 shadow-none">
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-200 border-4 border-green-100 z-10"></span>
-                                    <div class="text-xs text-green-400 font-bold mb-1 tracking-wider">FUTURE</div>
-                                    <h3 class="font-bold text-lg mb-2 text-slate-600">CPCC取得予定</h3>
-                                    <p class="text-sm text-gray-500">Certified Professional Co-Active Coachへ。</p>
+                            <div class="w-full pl-8 md:w-1/2 md:pl-0 md:pr-12">
+                                <div class="card-base p-4 md:p-6 relative bg-transparent border-2 border-dashed border-green-300 shadow-none">
+                                    <span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-200 border-2 border-green-100 z-10"></span>
+                                    <div class="text-[10px] md:text-xs text-green-400 font-bold mb-1 tracking-wider">FUTURE</div>
+                                    <h3 class="font-bold text-base md:text-lg mb-1 md:text-slate-600">CPCC取得予定</h3>
+                                    <p class="text-xs md:text-sm text-gray-600">Certified Professional Co-Active Coachへ。</p>
                                 </div>
                             </div>
                         </div>
@@ -387,64 +392,64 @@
                 </div>
             </div>
             
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
+            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
                 Co-Active Coaching®︎
             </div>
         </section>
 
         <!-- ==============================
              Slide 5: コーチングの具体的な流れ
-             更新：文字サイズ統一(大)、コンテナ幅広、矢印を数字の下に移動、0円/90分
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-lightorange relative overflow-y-auto">
-            <div class="container mx-auto px-6 max-w-3xl py-12 md:py-0 text-center">
-                <h2 class="text-3xl md:text-4xl font-black mb-10 text-slate-800">
+        <section class="slide-section bg-lightorange relative overflow-y-auto">
+            <!-- Mobile: pt-12 -->
+            <div class="container mx-auto px-4 md:px-6 max-w-4xl pt-12 pb-12 md:py-0 text-center flex flex-col justify-start md:justify-center min-h-screen">
+                <h2 class="text-2xl md:text-4xl font-black mb-6 md:mb-10 text-slate-800 shrink-0">
                     <span class="inline-block animate-bounce mr-2">🚀</span> コーチングの具体的な流れ
                 </h2>
 
-                <div class="flex flex-col gap-2 relative w-full">
+                <div class="flex flex-col gap-2 md:gap-3 relative w-full shrink-0 pb-12">
                     
                     <!-- STEP 1: 資料確認 -->
-                    <div class="flex gap-4 items-stretch">
-                        <!-- Number & Arrow Column -->
-                        <div class="flex flex-col items-center shrink-0 w-12">
-                            <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10 mb-1">1</div>
-                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
-                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                    <div class="flex gap-2 md:gap-4 items-stretch">
+                        <!-- Number Column -->
+                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10 mb-1">1</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span>
                             </div>
                         </div>
                         <!-- Card -->
-                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform flex items-center justify-between rounded-[1.5rem] mb-2">
-                            <div class="flex items-center gap-4">
-                                <span class="text-2xl">👀</span>
-                                <div>
-                                    <h3 class="font-bold text-slate-800 text-xl">資料確認</h3>
-                                    <p class="text-base text-slate-500">まずはこの資料をチェック</p>
+                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform flex flex-row items-center justify-between rounded-xl md:rounded-[1.5rem] mb-1 flex-1">
+                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+                                <span class="text-xl md:text-2xl shrink-0">👀</span>
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-slate-800 text-base md:text-xl truncate">資料確認</h3>
+                                    <p class="text-xs md:text-base text-slate-500 truncate">まずはこの資料をチェック</p>
                                 </div>
                             </div>
-                            <p class="text-sm font-bold text-gray-400 whitespace-nowrap">現在</p>
+                            <p class="text-xs md:text-sm font-bold text-gray-400 whitespace-nowrap ml-2 shrink-0">現在</p>
                         </div>
                     </div>
 
                     <!-- STEP 2: サンプルセッション -->
-                    <div class="flex gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-12">
-                            <div class="w-10 h-10 rounded-full bg-salmon text-white flex items-center justify-center font-bold text-sm ring-4 ring-white shadow-lg animate-pulse z-10 mb-1">2</div>
-                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
-                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                    <div class="flex gap-2 md:gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-salmon text-white flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white shadow-lg animate-pulse z-10 mb-1">2</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span>
                             </div>
                         </div>
-                        <div class="card-base p-6 w-full text-left transform scale-105 shadow-xl rounded-[1.5rem] relative overflow-hidden mb-2 border border-salmon/20">
-                            <span class="absolute top-0 right-0 bg-salmon text-white text-[10px] px-3 py-1 rounded-bl-xl font-bold">Action!</span>
-                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                                <div class="flex items-center gap-4">
-                                    <span class="text-2xl">✨</span>
-                                    <div>
-                                        <h3 class="font-bold text-slate-800 text-xl">サンプルセッション</h3>
-                                        <p class="text-base text-slate-600"><span class="font-bold text-salmon">0円 / 90分</span></p>
+                        <div class="card-base p-3 md:p-6 w-full text-left transform md:scale-105 shadow-xl rounded-xl md:rounded-[1.5rem] relative overflow-hidden mb-1 border border-salmon/20 flex-1">
+                            <span class="absolute top-0 right-0 bg-salmon text-white text-[9px] md:text-[10px] px-2 md:px-3 py-0.5 md:py-1 rounded-bl-xl font-bold">Action!</span>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-3">
+                                <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+                                    <span class="text-xl md:text-2xl shrink-0">✨</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-bold text-slate-800 text-base md:text-xl truncate">サンプルセッション</h3>
+                                        <p class="text-sm md:text-base text-slate-600"><span class="font-bold text-salmon">0円 / 90分</span></p>
                                     </div>
                                 </div>
-                                <div class="text-xs text-slate-600 font-bold bg-orange-50 px-4 py-2 rounded-xl text-center md:text-right">
+                                <div class="text-[10px] md:text-sm text-slate-600 font-bold bg-orange-50 px-2 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl text-center md:text-right break-all md:break-normal">
                                     メール(<a href="mailto:kus4tai@gmail.com" class="text-salmon underline">kus4tai@gmail.com</a>)か<br>SNSで一声かけてください！
                                 </div>
                             </div>
@@ -452,82 +457,82 @@
                     </div>
 
                     <!-- STEP 3: 継続契約 -->
-                    <div class="flex gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-12">
-                            <div class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10 mb-1">3</div>
-                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
-                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                    <div class="flex gap-2 md:gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10 mb-1">3</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span>
                             </div>
                         </div>
-                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-[1.5rem] flex items-center justify-between mb-2">
-                            <div class="flex items-center gap-4">
-                                <span class="text-2xl">📝</span>
-                                <div>
-                                    <h3 class="font-bold text-slate-800 text-xl">継続契約</h3>
-                                    <p class="text-base text-slate-500">継続意思があれば契約へ</p>
+                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-xl md:rounded-[1.5rem] flex items-center justify-between mb-1 flex-1">
+                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+                                <span class="text-xl md:text-2xl shrink-0">📝</span>
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-slate-800 text-base md:text-xl truncate">継続契約</h3>
+                                    <p class="text-xs md:text-base text-slate-500 truncate">継続意思があれば契約へ</p>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-400 whitespace-nowrap">※詳細はサンプル時に</p>
+                            <p class="text-[10px] md:text-xs text-gray-400 whitespace-nowrap ml-2 shrink-0">※詳細はサンプル時に</p>
                         </div>
                     </div>
 
                     <!-- PHASE DIVIDER -->
-                    <div class="flex gap-4 items-center pl-[3.5rem] -mt-1 mb-1">
+                    <div class="flex gap-4 items-center pl-[2rem] md:pl-[3.5rem] -mt-1 mb-1 w-full">
                         <div class="h-px bg-slate-300 flex-grow"></div>
-                        <span class="text-xs font-bold text-slate-400 bg-lightorange px-2 whitespace-nowrap">ここまでが準備ステップ</span>
+                        <span class="text-[10px] md:text-xs font-bold text-slate-400 bg-lightorange px-2 whitespace-nowrap">ここまでが準備ステップ</span>
                         <div class="h-px bg-slate-300 flex-grow"></div>
                     </div>
 
                     <!-- STEP 4: 導入セッション -->
-                    <div class="flex gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-12">
-                            <div class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10 mb-1">4</div>
-                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
-                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                    <div class="flex gap-2 md:gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10 mb-1">4</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span>
                             </div>
                         </div>
-                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-[1.5rem] flex items-center justify-between mb-2">
-                            <div class="flex items-center gap-4">
-                                <span class="text-2xl">🏁</span>
-                                <div>
-                                    <h3 class="font-bold text-slate-800 text-xl">導入セッション</h3>
-                                    <p class="text-base text-slate-500">ここから開始</p>
+                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-xl md:rounded-[1.5rem] flex items-center justify-between mb-1 flex-1">
+                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+                                <span class="text-xl md:text-2xl shrink-0">🏁</span>
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-slate-800 text-base md:text-xl truncate">導入セッション</h3>
+                                    <p class="text-xs md:text-base text-slate-500 truncate">ここから開始</p>
                                 </div>
                             </div>
-                            <div class="text-right whitespace-nowrap">
-                                <span class="block text-sm font-bold text-slate-700">90分</span>
-                                <span class="block text-base font-black text-salmon">2,000円</span>
+                            <div class="text-right whitespace-nowrap ml-2 shrink-0">
+                                <span class="block text-[10px] md:text-sm font-bold text-slate-700">90分</span>
+                                <span class="block text-xs md:text-base font-black text-salmon">2,000円</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- STEP 5: 通常セッション -->
-                    <div class="flex gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-12">
-                            <div class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10">5</div>
+                    <div class="flex gap-2 md:gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10">5</div>
                         </div>
-                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-[1.5rem] flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <span class="text-2xl">🔄</span>
-                                <div>
-                                    <h3 class="font-bold text-slate-800 text-xl">通常セッション</h3>
-                                    <p class="text-base text-slate-500">月1回ペース</p>
+                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-xl md:rounded-[1.5rem] flex items-center justify-between flex-1">
+                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+                                <span class="text-xl md:text-2xl shrink-0">🔄</span>
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-slate-800 text-base md:text-xl truncate">通常セッション</h3>
+                                    <p class="text-xs md:text-base text-slate-500 truncate">月1回ペース</p>
                                 </div>
                             </div>
-                            <div class="text-right whitespace-nowrap">
-                                <span class="block text-sm font-bold text-slate-700">60分</span>
-                                <span class="block text-base font-black text-salmon">2,000円<span class="text-xs font-normal text-gray-500">/回</span></span>
+                            <div class="text-right whitespace-nowrap ml-2 shrink-0">
+                                <span class="block text-[10px] md:text-sm font-bold text-slate-700">60分</span>
+                                <span class="block text-xs md:text-base font-black text-salmon">2,000円<span class="text-[9px] md:text-xs font-normal text-gray-500">/回</span></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <p class="mt-8 text-slate-600 font-bold animate-pulse text-sm">
+                <p class="mt-6 text-slate-600 font-bold animate-pulse text-xs md:text-sm pb-8 shrink-0">
                     まずはサンプルセッションでお会いできるのを<br>楽しみにしています！
                 </p>
             </div>
 
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
+            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
                 Co-Active Coaching®︎
             </div>
         </section>
@@ -582,4 +587,3 @@
     </script>
 </body>
 </html>
-```
