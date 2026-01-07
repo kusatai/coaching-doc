@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Co-Active Coaching Introduction</title>
-
+    
     <!-- Google Fonts: Noto Sans JP -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +27,8 @@
                         offwhite: '#f9f9f9',
                         lightgray: '#f3f4f6',
                         lightorange: '#fff5f2',
+                        ctipurple: '#4A3B69', /* Deep CTI Purple */
+                        ctihighlight: '#7A6496', /* Lighter Purple for gradients */
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
@@ -56,7 +58,7 @@
             margin: 0;
             overflow: hidden; /* メインスクロールはコンテナで管理 */
         }
-
+        
         .scroll-container {
             height: 100vh;
             overflow-y: scroll;
@@ -89,7 +91,7 @@
             transform: translateX(-50%);
             z-index: 0;
         }
-
+        
         /* 共通カードスタイル */
         .card-base {
             background-color: white;
@@ -112,22 +114,18 @@
 
     <!-- 2. ナビゲーションドット (TOC) -->
     <nav class="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3">
-        <button onclick="scrollToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 1"></button>
-        <button onclick="scrollToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 2"></button>
-        <button onclick="scrollToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 3"></button>
-        <button onclick="scrollToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 4"></button>
-        <button onclick="scrollToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 5"></button>
-        <button onclick="scrollToSlide(5)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 6"></button>
-        <button onclick="scrollToSlide(6)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 7"></button>
-        <button onclick="scrollToSlide(7)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Slide 8"></button>
+        <button onclick="scrollToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Top"></button>
+        <button onclick="scrollToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Coaching"></button>
+        <button onclick="scrollToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Co-Active"></button>
+        <button onclick="scrollToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="My Journey"></button>
+        <button onclick="scrollToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Flow"></button>
     </nav>
 
     <!-- メインスクロールコンテナ -->
     <main id="main-scroll" class="scroll-container">
 
         <!-- ==============================
-             Slide 1: ヒーローセクション
-             Theme: Dark (Gradient)
+             Slide 1: タイトル「コーチングって何？」
              ============================== -->
         <section class="slide-section flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-salmon text-white relative">
             <!-- 背景装飾 -->
@@ -138,20 +136,18 @@
             </div>
 
             <div class="container mx-auto px-6 text-center z-10 max-w-4xl">
-                <!-- Slide 5のような丸みのあるタグ -->
-                <span class="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm md:text-base font-bold tracking-wider mb-6 animate-float">
-                    Introduction
-                </span>
-
+                
                 <h1 class="text-4xl md:text-6xl font-black mb-8 leading-tight drop-shadow-lg">
-                    <span class="inline-block animate-float mr-2">👋</span>
-                    サンプルセッションの<br class="md:hidden">前に！
+                    <span class="inline-block animate-float mr-2">🤔</span>
+                    コーチングって何？
                 </h1>
-
+                
                 <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 max-w-2xl mx-auto border border-white/10 shadow-2xl">
-                    <p class="text-lg md:text-xl text-gray-100 leading-relaxed">
-                        これからの時間は、あなたのための時間です。<br>
-                        Co-Activeコーチングの世界へようこそ。
+                    <p class="text-base md:text-lg text-gray-100 leading-relaxed">
+                        この資料では、<br>
+                        <strong>「そもそもコーチングとは何か？」</strong><br>
+                        <strong>「具体的にどのように進むのか？」</strong><br>
+                        について、わかりやすくお伝えします。
                     </p>
                 </div>
 
@@ -161,93 +157,174 @@
                 </div>
             </div>
 
-            <!-- 商標 -->
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60 max-w-xs md:max-w-md">
-                Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。<br>
-                <a href="https://www.thecoaches.co.jp/" target="_blank" class="underline hover:text-white">CTI JAPAN 公式サイト</a>
-            </div>
-        </section>
-
-        <!-- ==============================
-             Slide 2: Co-Activeコーチングとは
-             Theme: Light (White/Gray) - Style unified with Slide 5
-             ============================== -->
-        <section class="slide-section flex items-center justify-center bg-slate-50 relative">
-            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-slate-800">
-                    <span class="inline-block animate-float mr-2">💡</span>
-                    提供するのは<br class="md:hidden"><span class="text-salmon">Co-Activeコーチング</span>です
-                </h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-                    <!-- Card 1 -->
-                    <div class="card-base p-8 flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 rounded-full bg-salmon/10 flex items-center justify-center text-4xl mb-6 text-salmon group-hover:scale-110 transition-transform duration-300">
-                            💎
-                        </div>
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">クライアントへの信頼</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。私はそれを信じて関わります。
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="card-base p-8 flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 rounded-full bg-softblue/20 flex items-center justify-center text-4xl mb-6 text-softblue group-hover:scale-110 transition-transform duration-300">
-                            ⚖️
-                        </div>
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">「あり方」と「行動」</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            目標達成（行動）だけでなく、あなたがどう在りたいか（価値観・あり方）にも深く働きかけます。
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="card-base p-8 flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 rounded-full bg-salmon/10 flex items-center justify-center text-4xl mb-6 text-salmon group-hover:scale-110 transition-transform duration-300">
-                            🌏
-                        </div>
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">人生全体を扱う</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            仕事の話をしていても、テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 商標 -->
             <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60 max-w-xs md:max-w-md">
                 Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。
             </div>
         </section>
 
         <!-- ==============================
-             Slide 3: 私の旅（タイムライン）
-             Theme: Light (Gray) - Updated with Centered Dots
+             Slide 2: コーチングって？
+             更新：メイン定義カードの背景色を薄いオレンジに変更
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-gray-100 overflow-y-auto">
+        <section class="slide-section flex items-center justify-center bg-white relative">
+            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
+                <h2 class="text-3xl md:text-4xl font-black text-center mb-8 text-slate-800">
+                    <span class="inline-block animate-float mr-2">💡</span>
+                    コーチングって？
+                </h2>
+
+                <div class="max-w-4xl mx-auto text-center mb-16 w-full">
+                    <!-- 定義：カードデザイン（背景色変更 bg-orange-50） -->
+                    <div class="card-base p-8 md:p-10 text-left md:text-center shadow-lg relative flex flex-col items-center bg-orange-50">
+                        <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl mb-4 text-salmon shadow-sm">
+                            🔥
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4">
+                            行動の力を引き出すコミュニケーション
+                        </h3>
+                        <p class="text-slate-700 text-lg md:text-xl leading-relaxed">
+                            本人特有の<span class="text-salmon font-bold">感情</span>や<span class="text-salmon font-bold">思考</span>の働きを<br class="hidden md:inline">
+                            <span class="font-bold border-b-4 border-salmon/30">行動の力</span>に変えることで、<br>
+                            <span class="font-bold">目標達成</span>や<span class="font-bold">自己実現</span>を促す技術です。
+                        </p>
+                    </div>
+                </div>
+
+                <p class="text-center text-gray-400 font-bold mb-8 text-sm tracking-widest">ー 他との違い ー</p>
+
+                <!-- 比較 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
+                    <!-- Consulting -->
+                    <div class="card-base p-6 flex flex-col items-center text-center hover:bg-blue-50/50 transition-colors border border-transparent hover:border-blue-100">
+                        <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-3xl mb-4 text-blue-500">
+                            👔
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-700 mb-2">コンサルティング</h4>
+                        <p class="text-sm text-gray-600 leading-relaxed">専門知識に基づき<br>「解決策や戦略」を提供</p>
+                    </div>
+
+                    <!-- Mentoring -->
+                    <div class="card-base p-6 flex flex-col items-center text-center hover:bg-green-50/50 transition-colors border border-transparent hover:border-green-100">
+                        <div class="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-3xl mb-4 text-green-500">
+                            🤝
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-700 mb-2">メンタリング</h4>
+                        <p class="text-sm text-gray-600 leading-relaxed">先輩の立場から<br>「経験による助言」を提供</p>
+                    </div>
+
+                    <!-- Counseling -->
+                    <div class="card-base p-6 flex flex-col items-center text-center hover:bg-purple-50/50 transition-colors border border-transparent hover:border-purple-100">
+                        <div class="w-16 h-16 rounded-2xl bg-purple-50 flex items-center justify-center text-3xl mb-4 text-purple-500">
+                            🩹
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-700 mb-2">カウンセリング</h4>
+                        <p class="text-sm text-gray-600 leading-relaxed">心理的な不調に対し<br>「癒しと回復」を提供</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
+                Co-Active Coaching®︎
+            </div>
+        </section>
+
+        <!-- ==============================
+             Slide 3: 提供するのはCo-Activeコーチング
+             ============================== -->
+        <section class="slide-section flex items-center justify-center bg-gradient-to-b from-white to-slate-50 relative">
+            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
+                
+                <h2 class="text-3xl md:text-4xl font-black text-center mb-8 text-slate-800">
+                    提供するのは<br class="md:hidden"><span class="text-salmon">Co-Activeコーチング</span>
+                </h2>
+
+                <!-- 趣旨 -->
+                <div class="text-center mb-12">
+                    <div class="inline-block p-4 rounded-full bg-orange-50 mb-4 animate-float border-2 border-white shadow-sm">
+                        <div class="text-5xl">🧭</div>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
+                        「話すテーマ」は、<br class="md:hidden">内面への旅のきっかけに過ぎません
+                    </h3>
+                    <p class="text-slate-600 text-lg leading-relaxed max-w-2xl mx-auto">
+                        具体的な悩みや目標の裏側にある、<br class="hidden md:inline">あなた自身の<span class="font-bold border-b-4 border-salmon/30">本当の願いや可能性</span>を探求します。<br>
+                        <span class="text-sm text-gray-400 mt-2 block">（※そのため、具体的な解決策のアドバイスは行いません）</span>
+                    </p>
+                </div>
+
+                <!-- 特徴3点 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-6xl mx-auto mb-12">
+                    <!-- Feature 1 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-[1.5rem] bg-red-50/50 hover:bg-red-50 transition-colors duration-300">
+                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-3xl mb-4 text-salmon shadow-sm">
+                            💎
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 mb-2">クライアントへの信頼</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-[1.5rem] bg-blue-50/50 hover:bg-blue-50 transition-colors duration-300">
+                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-3xl mb-4 text-softblue shadow-sm">
+                            ⚖️
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 mb-2">あり方と行動</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-[1.5rem] bg-emerald-50/50 hover:bg-emerald-50 transition-colors duration-300">
+                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-3xl mb-4 text-emerald-600 shadow-sm">
+                            🌏
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 mb-2">人生全体を扱う</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CTIリンク -->
+                <div class="text-center">
+                    <a href="https://www.thecoaches.co.jp/" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-ctipurple to-purple-800 text-white rounded-full hover:shadow-xl transition-all shadow-md transform hover:-translate-y-1 border-t border-white/20">
+                        <span class="font-bold tracking-widest text-sm">CTI JAPAN 公式サイト</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
+                Co-Active Coaching®︎
+            </div>
+        </section>
+
+        <!-- ==============================
+             Slide 4: 日下のCo-Activeの旅
+             ============================== -->
+        <section class="slide-section flex items-center justify-center bg-green-50 overflow-y-auto">
             <div class="container mx-auto px-6 max-w-4xl py-12 md:py-0">
                 <h2 class="text-3xl md:text-4xl font-black text-center mb-8 md:mb-12 text-slate-800">
-                    <span class="inline-block animate-float mr-2">🌱</span> 私のCo-Activeの旅
+                    <span class="inline-block animate-float mr-2">🌱</span> 日下のCo-Activeの旅
                 </h2>
 
                 <div class="relative">
                     <!-- Line -->
-                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-300 transform -translate-x-1/2"></div>
-                    <div class="md:hidden absolute left-6 top-0 bottom-0 w-0.5 bg-slate-300"></div>
+                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-green-200 transform -translate-x-1/2"></div>
+                    <div class="md:hidden absolute left-6 top-0 bottom-0 w-0.5 bg-green-200"></div>
 
                     <!-- Timeline Items -->
                     <div class="space-y-8 md:space-y-0">
                         <!-- Item 1: Left Side -->
                         <div class="relative flex md:justify-start md:mb-8 items-center group">
-                            <!-- PC Dot (Centered) -->
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-slate-400 border-4 border-gray-100 z-10"></span>
-
+                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-400 border-4 border-green-100 z-10"></span>
                             <div class="md:w-1/2 pl-16 md:pl-0 md:pr-12">
-                                <div class="card-base p-6 relative">
-                                    <!-- Mobile Dot (Side) -->
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-slate-400 border-4 border-gray-100 z-10"></span>
-                                    <div class="text-xs text-gray-400 font-bold mb-1 tracking-wider">STORY</div>
+                                <div class="card-base p-6 relative hover:bg-green-50/50">
+                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-400 border-4 border-green-100 z-10"></span>
+                                    <div class="text-xs text-green-600 font-bold mb-1 tracking-wider">STORY</div>
                                     <h3 class="font-bold text-lg mb-2 text-slate-800">きっかけ（課題感）</h3>
                                     <p class="text-sm text-gray-600">自分自身のリーダーシップや対人支援への課題感から、CTIの門を叩きました。</p>
                                 </div>
@@ -256,14 +333,11 @@
 
                         <!-- Item 2: Right Side -->
                         <div class="relative flex md:justify-end md:mb-8 items-center group">
-                            <!-- PC Dot (Centered) -->
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-salmon border-4 border-gray-100 z-10"></span>
-
+                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-500 border-4 border-green-100 z-10"></span>
                             <div class="md:w-1/2 pl-16 md:pl-12 md:pr-0 text-left">
-                                <div class="card-base p-6 relative">
-                                    <!-- Mobile Dot (Side) -->
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-salmon border-4 border-gray-100 z-10"></span>
-                                    <div class="text-xs text-salmon font-bold mb-1 tracking-wider">2025 GW前</div>
+                                <div class="card-base p-6 relative hover:bg-green-50/50">
+                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-500 border-4 border-green-100 z-10"></span>
+                                    <div class="text-xs text-green-600 font-bold mb-1 tracking-wider">2025 GW前</div>
                                     <h3 class="font-bold text-lg mb-2 text-slate-800">基礎コース修了</h3>
                                     <p class="text-sm text-gray-600">Co-Activeの土台となる考え方をインストール。</p>
                                 </div>
@@ -272,14 +346,11 @@
 
                         <!-- Item 3: Left Side -->
                         <div class="relative flex md:justify-start md:mb-8 items-center group">
-                            <!-- PC Dot (Centered) -->
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-salmon border-4 border-gray-100 z-10"></span>
-
+                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-600 border-4 border-green-100 z-10"></span>
                             <div class="md:w-1/2 pl-16 md:pl-0 md:pr-12">
-                                <div class="card-base p-6 relative">
-                                    <!-- Mobile Dot (Side) -->
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-salmon border-4 border-gray-100 z-10"></span>
-                                    <div class="text-xs text-salmon font-bold mb-1 tracking-wider">2025 6〜9月</div>
+                                <div class="card-base p-6 relative hover:bg-green-50/50">
+                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-600 border-4 border-green-100 z-10"></span>
+                                    <div class="text-xs text-green-600 font-bold mb-1 tracking-wider">2025 6〜9月</div>
                                     <h3 class="font-bold text-lg mb-2 text-slate-800">応用コース修了</h3>
                                     <p class="text-sm text-gray-600">4つのコースを通じて、コーチングの幅を広げました。</p>
                                 </div>
@@ -288,15 +359,12 @@
 
                         <!-- Item 4: Right Side (Current) -->
                         <div class="relative flex md:justify-end md:mb-8 items-center group">
-                            <!-- PC Dot (Centered & Pulsing) -->
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-6 h-6 rounded-full bg-salmon border-4 border-white animate-pulse z-20"></span>
-
+                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-6 h-6 rounded-full bg-emerald-500 border-4 border-white animate-pulse z-20"></span>
                             <div class="md:w-1/2 pl-16 md:pl-12 md:pr-0 text-left">
-                                <div class="card-base p-6 relative border-2 border-salmon transform md:scale-105">
-                                    <!-- Mobile Dot (Side) -->
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-6 h-6 rounded-full bg-salmon border-4 border-white animate-pulse z-10"></span>
-                                    <div class="inline-block bg-salmon text-white text-[10px] px-2 py-0.5 rounded-full mb-2">NOW</div>
-                                    <div class="text-xs text-salmon font-bold mb-1 tracking-wider">2026 1月〜</div>
+                                <div class="card-base p-6 relative border-2 border-emerald-400 transform md:scale-105">
+                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-6 h-6 rounded-full bg-emerald-500 border-4 border-white animate-pulse z-10"></span>
+                                    <div class="inline-block bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-full mb-2">NOW</div>
+                                    <div class="text-xs text-emerald-600 font-bold mb-1 tracking-wider">2026 1月〜</div>
                                     <h3 class="font-bold text-xl mb-2 text-slate-800">上級コース受講中</h3>
                                     <p class="text-sm text-gray-600">プロフェッショナルとしての認定資格取得に向けて、実践と研鑽の日々。</p>
                                 </div>
@@ -305,14 +373,11 @@
 
                         <!-- Item 5: Left Side (Future) -->
                         <div class="relative flex md:justify-start items-center opacity-70 hover:opacity-100 transition-opacity">
-                            <!-- PC Dot (Centered) -->
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-slate-300 border-4 border-gray-100 z-10"></span>
-
+                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-200 border-4 border-green-100 z-10"></span>
                             <div class="md:w-1/2 pl-16 md:pl-0 md:pr-12">
-                                <div class="card-base p-6 relative bg-transparent border-2 border-dashed border-slate-300 shadow-none">
-                                    <!-- Mobile Dot (Side) -->
-                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-slate-300 border-4 border-gray-100 z-10"></span>
-                                    <div class="text-xs text-slate-400 font-bold mb-1 tracking-wider">FUTURE</div>
+                                <div class="card-base p-6 relative bg-transparent border-2 border-dashed border-green-300 shadow-none">
+                                    <span class="md:hidden absolute top-6 -left-[2.75rem] w-5 h-5 rounded-full bg-green-200 border-4 border-green-100 z-10"></span>
+                                    <div class="text-xs text-green-400 font-bold mb-1 tracking-wider">FUTURE</div>
                                     <h3 class="font-bold text-lg mb-2 text-slate-600">CPCC取得予定</h3>
                                     <p class="text-sm text-gray-500">Certified Professional Co-Active Coachへ。</p>
                                 </div>
@@ -321,256 +386,145 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
                 Co-Active Coaching®︎
             </div>
         </section>
 
         <!-- ==============================
-             Slide 4: 他との関わりとの違い
-             Theme: Dark (Slate Gradient) - High contrast
+             Slide 5: コーチングの具体的な流れ
+             更新：文字サイズ統一(大)、コンテナ幅広、矢印を数字の下に移動、0円/90分
              ============================== -->
-        <section class="slide-section flex items-center justify-center bg-slate-50 relative">
-            <div class="container mx-auto px-6 max-w-5xl h-full flex flex-col justify-center">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-10 text-slate-800">他との関わりの違い</h2>
-
-                <!-- Main Focus: Coaching -->
-                <div class="card-base p-10 mb-8 border-t-8 border-salmon animate-pulse-scale md:mx-auto md:w-3/4 text-center z-10 relative">
-                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-salmon text-white px-8 py-2 rounded-full font-bold shadow-md text-sm tracking-wider">
-                        Co-Active Coaching
-                    </div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mt-4 mb-4">内なる気づきや可能性を引き出す</h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">
-                        答えを与えるのではなく、<br class="md:hidden">問いかけによって<br>
-                        <span class="font-bold text-salmon">あなたの中にある答え</span>を見つけ出します。
-                    </p>
-                </div>
-
-                <!-- Comparisons -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-2xl text-center border border-slate-100 hover:shadow-md transition-all">
-                        <div class="text-3xl mb-3">👔</div>
-                        <h4 class="font-bold text-slate-700 mb-2">コンサルティング</h4>
-                        <p class="text-xs text-gray-500 leading-tight">専門知識に基づき<br>「解決策や戦略」を提供</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl text-center border border-slate-100 hover:shadow-md transition-all">
-                        <div class="text-3xl mb-3">🤝</div>
-                        <h4 class="font-bold text-slate-700 mb-2">メンタリング</h4>
-                        <p class="text-xs text-gray-500 leading-tight">先輩の立場から<br>「経験による助言」を提供</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl text-center border border-slate-100 hover:shadow-md transition-all">
-                        <div class="text-3xl mb-3">🩹</div>
-                        <h4 class="font-bold text-slate-700 mb-2">カウンセリング</h4>
-                        <p class="text-xs text-gray-500 leading-tight">心理的な不調に対し<br>「癒しと回復」を提供</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
-                Co-Active Coaching®︎
-            </div>
-        </section>
-
-        <!-- ==============================
-             Slide 5: 本質的な変化を呼び起こす
-             Theme: Light (Original Reference)
-             ============================== -->
-        <section class="slide-section flex items-center justify-center bg-white relative">
-            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-16 text-slate-800">
-                    <span class="inline-block animate-float mr-2">🦋</span>
-                    本質的な変化を呼び起こす
+        <section class="slide-section flex items-center justify-center bg-lightorange relative overflow-y-auto">
+            <div class="container mx-auto px-6 max-w-3xl py-12 md:py-0 text-center">
+                <h2 class="text-3xl md:text-4xl font-black mb-10 text-slate-800">
+                    <span class="inline-block animate-bounce mr-2">🚀</span> コーチングの具体的な流れ
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Element 1 -->
-                    <div class="card-base p-8 flex flex-col items-center text-center group bg-slate-50 hover:bg-white border border-transparent hover:border-slate-100">
-                        <div class="w-20 h-20 rounded-full bg-softblue flex items-center justify-center text-3xl mb-6 text-white shadow-lg group-hover:scale-110 transition-transform">
-                            🏃
-                        </div>
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">エンボディメント</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            頭（思考）だけでなく、感情や身体感覚など、あなたの持つリソースを全て使ってアプローチします。
-                        </p>
-                    </div>
-
-                    <!-- Element 2 -->
-                    <div class="card-base p-8 flex flex-col items-center text-center group bg-slate-50 hover:bg-white border border-transparent hover:border-slate-100">
-                        <div class="w-20 h-20 rounded-full bg-salmon flex items-center justify-center text-3xl mb-6 text-white shadow-lg group-hover:scale-110 transition-transform">
-                            📣
-                        </div>
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">認知 / 励まし</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            あなたの強み、価値観、そして変化しようとする勇気を、まっすぐな言葉で伝え（認知し）ます。
-                        </p>
-                    </div>
-
-                    <!-- Element 3 -->
-                    <div class="card-base p-8 flex flex-col items-center text-center group bg-slate-50 hover:bg-white border border-transparent hover:border-slate-100">
-                        <div class="w-20 h-20 rounded-full bg-slate-400 flex items-center justify-center text-3xl mb-6 text-white shadow-lg group-hover:scale-110 transition-transform">
-                            🪞
-                        </div>
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">反映</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            鏡のように、あなたから見えているもの、聞こえているものをそのまま映し出し、自己理解を深めます。
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
-                Co-Active Coaching®︎
-            </div>
-        </section>
-
-        <!-- ==============================
-             Slide 6: 対等なパートナーシップ
-             Theme: Light (Gray/Blue Hint) - Unified with Card Style
-             ============================== -->
-        <section class="slide-section flex items-center justify-center bg-gray-50 relative">
-            <div class="container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
-                <h2 class="text-3xl md:text-4xl font-black text-center mb-12 text-slate-800">
-                    <span class="inline-block animate-float mr-2">🤝</span>
-                    コーチとクライアントは<br>対等なパートナーです
-                </h2>
-
-                <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 w-full">
-                    <!-- Client -->
-                    <div class="card-base p-8 md:p-10 w-full md:w-1/3 text-center group border-t-4 border-softblue">
-                        <div class="w-16 h-16 mx-auto rounded-full bg-softblue/20 flex items-center justify-center text-2xl mb-6 text-softblue font-black">
-                            C
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-700 mb-6 tracking-widest">CLIENT</h3>
-                        <ul class="space-y-4 text-left mx-auto max-w-[200px]">
-                            <li class="flex items-center gap-3 text-gray-600">
-                                <span class="text-xl">🌱</span> <span class="font-bold text-sm">心を開く</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-gray-600">
-                                <span class="text-xl">👀</span> <span class="font-bold text-sm">好奇心を持つ</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-gray-600">
-                                <span class="text-xl">👑</span> <span class="font-bold text-sm">人生の主人公</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Center Icon -->
-                    <div class="text-4xl text-slate-300 font-black animate-pulse">
-                        ×
-                    </div>
-
-                    <!-- Coach -->
-                    <div class="card-base p-8 md:p-10 w-full md:w-1/3 text-center group border-t-4 border-salmon">
-                        <div class="w-16 h-16 mx-auto rounded-full bg-salmon/20 flex items-center justify-center text-2xl mb-6 text-salmon font-black">
-                            C
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-700 mb-6 tracking-widest">COACH</h3>
-                        <ul class="space-y-4 text-left mx-auto max-w-[200px]">
-                            <li class="flex items-center gap-3 text-gray-600">
-                                <span class="text-xl">🔦</span> <span class="font-bold text-sm">光を当てる</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-gray-600">
-                                <span class="text-xl">❓</span> <span class="font-bold text-sm">質問する</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-gray-600">
-                                <span class="text-xl">👂</span> <span class="font-bold text-sm">耳を傾ける</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
-                Co-Active Coaching®︎
-            </div>
-        </section>
-
-        <!-- ==============================
-             Slide 7: まとめ
-             Theme: Dark (Deep Green Gradient)
-             ============================== -->
-        <section class="slide-section flex items-center justify-center bg-gradient-to-br from-slate-900 via-emerald-900 to-teal-900 text-white relative">
-            <div class="container mx-auto px-6 max-w-3xl text-center">
-                <h2 class="text-4xl md:text-5xl font-black mb-12">
-                    <span class="inline-block animate-bounce mr-2">👍</span> 準備はOK？
-                </h2>
-
-                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 text-left shadow-2xl border border-white/20">
-                    <ul class="space-y-6 md:space-y-8">
-                        <li class="flex items-center gap-4 group">
-                            <div class="bg-green-500 rounded-full p-2 shrink-0 group-hover:scale-110 transition-transform">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                <div class="flex flex-col gap-2 relative w-full">
+                    
+                    <!-- STEP 1: 資料確認 -->
+                    <div class="flex gap-4 items-stretch">
+                        <!-- Number & Arrow Column -->
+                        <div class="flex flex-col items-center shrink-0 w-12">
+                            <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10 mb-1">1</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
                             </div>
-                            <span class="text-lg md:text-2xl font-bold opacity-90 group-hover:opacity-100">あなたの可能性を最大限に引き出します。</span>
-                        </li>
-                        <li class="flex items-center gap-4 group">
-                            <div class="bg-green-500 rounded-full p-2 shrink-0 group-hover:scale-110 transition-transform">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <span class="text-lg md:text-2xl font-bold opacity-90 group-hover:opacity-100">対等なパートナーとして、一緒に変化を創ります。</span>
-                        </li>
-                        <li class="flex items-center gap-4 group">
-                            <div class="bg-green-500 rounded-full p-2 shrink-0 group-hover:scale-110 transition-transform">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <span class="text-lg md:text-2xl font-bold opacity-90 group-hover:opacity-100">安心して、心を開いてください。</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
-                Co-Active Coaching®︎
-            </div>
-        </section>
-
-        <!-- ==============================
-             Slide 8: 話すテーマのおすすめ
-             Theme: Light (Warm White)
-             ============================== -->
-        <section class="slide-section flex items-center justify-center bg-orange-50 relative">
-            <div class="container mx-auto px-6 max-w-5xl text-center">
-                <h2 class="text-3xl md:text-4xl font-black mb-4 text-slate-800">
-                    <span class="animate-pulse inline-block mr-2">🤔</span> 話すテーマのおすすめ
-                </h2>
-                <p class="mb-10 text-gray-500 font-medium">どちらかピンとくる方を選んでみてください</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Option 1 -->
-                    <div class="card-base p-10 hover:border-salmon border-2 border-transparent group cursor-pointer text-left md:text-center">
-                        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-4xl mb-6 mx-auto group-hover:bg-salmon group-hover:text-white transition-colors duration-300">
-                            😶‍🌫️
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-800 mb-4">今もやもやしていること</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            「やりたいけど一歩踏み出せない」<br>
-                            「なんとなく現状に違和感がある」<br>
-                            そんな漠然とした感覚でも大丈夫です。
-                        </p>
+                        <!-- Card -->
+                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform flex items-center justify-between rounded-[1.5rem] mb-2">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">👀</span>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-xl">資料確認</h3>
+                                    <p class="text-base text-slate-500">まずはこの資料をチェック</p>
+                                </div>
+                            </div>
+                            <p class="text-sm font-bold text-gray-400 whitespace-nowrap">現在</p>
+                        </div>
                     </div>
 
-                    <!-- Option 2 -->
-                    <a href="https://balance-wheel.work/" target="_blank" class="card-base p-10 hover:border-softblue border-2 border-transparent group block relative overflow-hidden text-left md:text-center">
-                        <div class="absolute top-0 right-0 bg-softblue text-white text-xs px-3 py-1 rounded-bl-lg font-bold">External Link ↗</div>
-                        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-4xl mb-6 mx-auto group-hover:bg-softblue group-hover:text-white transition-colors duration-300">
-                            🎡
+                    <!-- STEP 2: サンプルセッション -->
+                    <div class="flex gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-12">
+                            <div class="w-10 h-10 rounded-full bg-salmon text-white flex items-center justify-center font-bold text-sm ring-4 ring-white shadow-lg animate-pulse z-10 mb-1">2</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                            </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-800 mb-4">人生の輪</h3>
-                        <p class="text-gray-600 leading-relaxed text-sm mb-6">
-                            キャリア、お金、人間関係など<br>
-                            8つの分野の満足度をチェックして<br>
-                            扱うテーマを見つけます。
-                        </p>
-                        <span class="inline-block px-6 py-2 bg-slate-100 rounded-full text-sm font-bold text-slate-600 group-hover:bg-softblue group-hover:text-white transition-colors">
-                            ツールを開く
-                        </span>
-                    </a>
-                </div>
+                        <div class="card-base p-6 w-full text-left transform scale-105 shadow-xl rounded-[1.5rem] relative overflow-hidden mb-2 border border-salmon/20">
+                            <span class="absolute top-0 right-0 bg-salmon text-white text-[10px] px-3 py-1 rounded-bl-xl font-bold">Action!</span>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-2xl">✨</span>
+                                    <div>
+                                        <h3 class="font-bold text-slate-800 text-xl">サンプルセッション</h3>
+                                        <p class="text-base text-slate-600"><span class="font-bold text-salmon">0円 / 90分</span></p>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-slate-600 font-bold bg-orange-50 px-4 py-2 rounded-xl text-center md:text-right">
+                                    メール(<a href="mailto:kus4tai@gmail.com" class="text-salmon underline">kus4tai@gmail.com</a>)か<br>SNSで一声かけてください！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="mt-16 animate-pulse">
-                    <p class="text-xl font-bold text-slate-700">それでは、お話しできるのを楽しみにしています！</p>
+                    <!-- STEP 3: 継続契約 -->
+                    <div class="flex gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-12">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10 mb-1">3</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                            </div>
+                        </div>
+                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-[1.5rem] flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">📝</span>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-xl">継続契約</h3>
+                                    <p class="text-base text-slate-500">継続意思があれば契約へ</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 whitespace-nowrap">※詳細はサンプル時に</p>
+                        </div>
+                    </div>
+
+                    <!-- PHASE DIVIDER -->
+                    <div class="flex gap-4 items-center pl-[3.5rem] -mt-1 mb-1">
+                        <div class="h-px bg-slate-300 flex-grow"></div>
+                        <span class="text-xs font-bold text-slate-400 bg-lightorange px-2 whitespace-nowrap">ここまでが準備ステップ</span>
+                        <div class="h-px bg-slate-300 flex-grow"></div>
+                    </div>
+
+                    <!-- STEP 4: 導入セッション -->
+                    <div class="flex gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-12">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10 mb-1">4</div>
+                            <div class="w-0.5 flex-grow bg-slate-200 relative min-h-[20px]">
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-xs">▼</span>
+                            </div>
+                        </div>
+                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-[1.5rem] flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🏁</span>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-xl">導入セッション</h3>
+                                    <p class="text-base text-slate-500">ここから開始</p>
+                                </div>
+                            </div>
+                            <div class="text-right whitespace-nowrap">
+                                <span class="block text-sm font-bold text-slate-700">90分</span>
+                                <span class="block text-base font-black text-salmon">2,000円</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 5: 通常セッション -->
+                    <div class="flex gap-4 items-stretch">
+                        <div class="flex flex-col items-center shrink-0 w-12">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-sm ring-4 ring-white z-10">5</div>
+                        </div>
+                        <div class="card-base p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-[1.5rem] flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🔄</span>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-xl">通常セッション</h3>
+                                    <p class="text-base text-slate-500">月1回ペース</p>
+                                </div>
+                            </div>
+                            <div class="text-right whitespace-nowrap">
+                                <span class="block text-sm font-bold text-slate-700">60分</span>
+                                <span class="block text-base font-black text-salmon">2,000円<span class="text-xs font-normal text-gray-500">/回</span></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                <p class="mt-8 text-slate-600 font-bold animate-pulse text-sm">
+                    まずはサンプルセッションでお会いできるのを<br>楽しみにしています！
+                </p>
             </div>
 
             <div class="absolute bottom-4 right-6 md:right-12 text-[10px] text-gray-400 text-right opacity-60">
@@ -587,10 +541,10 @@
             const slides = document.querySelectorAll('.slide-section');
             const dots = document.querySelectorAll('.nav-dot');
             const progressBar = document.getElementById('progress-bar');
-
+            
             const observerOptions = {
                 root: mainScroll,
-                threshold: 0.5
+                threshold: 0.5 
             };
 
             const observer = new IntersectionObserver((entries) => {
@@ -622,9 +576,10 @@
             window.scrollToSlide = (index) => {
                 slides[index].scrollIntoView({ behavior: 'smooth' });
             };
-
+            
             updateNavigation(0);
         });
     </script>
 </body>
 </html>
+```
