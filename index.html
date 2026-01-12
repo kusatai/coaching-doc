@@ -3,48 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Co-Active Coaching Introduction</title>
+    <title>Co-Active Coaching - Friendly</title>
     
-    <!-- Google Fonts: Noto Sans JP & Roboto (for EN) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- 日本語用: M PLUS Rounded 1c (丸ゴシック), Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS (CDN) -->
+    <!-- Libraries (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- Tailwind Config for Custom Colors and Fonts -->
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
+            prefix: 'fr-', /* Friendly Prefix */
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Noto Sans JP"', '"Roboto"', 'sans-serif'],
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        display: ['"M PLUS Rounded 1c"', 'sans-serif'],
                     },
                     colors: {
-                        salmon: '#e87a5e',
-                        softblue: '#a7c4d4',
-                        offwhite: '#f9f9f9',
-                        lightgray: '#f3f4f6',
-                        lightorange: '#fff5f2',
-                        ctipurple: '#4A3B69', /* Deep CTI Purple */
-                        ctihighlight: '#7A6496', /* Lighter Purple for gradients */
+                        'fr-text': '#4A4A4A',
+                        'fr-text-light': '#7a7a7a',
+                        'fr-bg': '#FFFBF0', /* Creamy White */
+                        'fr-white': '#FFFFFF',
+                        'fr-salmon': '#FF8E72',
+                        'fr-blue': '#6CC1E8',
+                        'fr-green': '#6ED888',
+                        'fr-yellow': '#FFD966',
+                        'fr-line': '#06C755',
                     },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'float-delayed': 'float 7s ease-in-out 1s infinite',
-                        'float-slow': 'float 8s ease-in-out 2s infinite',
-                        'pulse-scale': 'pulseScale 2s infinite',
+                    boxShadow: {
+                        'soft': '0 8px 24px rgba(149, 157, 165, 0.1)',
+                        'soft-hover': '0 12px 32px rgba(149, 157, 165, 0.2)',
+                        'card': '0 2px 8px rgba(0,0,0,0.04)',
                     },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        pulseScale: {
-                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-                            '50%': { transform: 'scale(1.05)', opacity: '0.9' },
-                        }
+                    borderRadius: {
+                        'card': '1.5rem',
+                        'pill': '9999px',
                     }
                 }
             }
@@ -52,614 +53,781 @@
     </script>
 
     <style>
-        /* スクロールスナップの設定 */
-        html, body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden; /* メインスクロールはコンテナで管理 */
+        /* Base Styles */
+        #friendly-showcase {
+            font-family: "Noto Sans JP", sans-serif;
+            color: #4A4A4A;
+            background-color: #FFFBF0;
+            overflow-x: hidden;
+            position: relative;
+            width: 100%;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 3D Canvas Background */
+        #friendly-showcase canvas#webgl-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* --- Components --- */
+
+        /* カードの基本スタイル (柔らかい) */
+        #friendly-showcase .bento-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #friendly-showcase .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(149, 157, 165, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Grid System */
+        #friendly-showcase .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        /* Typography */
+        #friendly-showcase .font-rounded {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
         }
         
-        .scroll-container {
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            transition: opacity 0.5s ease;
+        /* Marker Animation */
+        #friendly-showcase .marker {
+            background: linear-gradient(transparent 60%, #ffe08a 60%);
+            display: inline;
+            padding: 0 2px;
         }
 
-        .slide-section {
-            height: 100vh;
-            width: 100%;
-            scroll-snap-align: start;
-            position: relative;
-            /* スライド内スクロールを許可し、はみ出し防止 */
-            overflow-y: auto; 
-            overflow-x: hidden;
+        /* Scroll Bar */
+        #friendly-showcase ::-webkit-scrollbar {
+            width: 10px;
+        }
+        #friendly-showcase ::-webkit-scrollbar-track {
+            background: #FFFBF0;
+        }
+        #friendly-showcase ::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 5px;
         }
 
-        /* サブページ用のスタイル */
-        .sub-page {
-            position: absolute;
+        /* Sub Page Transition */
+        #sub-page-prep {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #f9f9f9;
+            background: #FFFBF0;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             overflow-y: auto;
-            z-index: 40;
-            display: none; /* 初期状態は非表示 */
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        }
+        #sub-page-prep.active {
+            transform: translateY(0);
         }
 
-        .sub-page.active {
-            display: block;
-            opacity: 1;
-        }
-
-        /* カスタムスクロールバー（非表示にする場合） */
-        .scroll-container::-webkit-scrollbar,
-        .slide-section::-webkit-scrollbar,
-        .sub-page::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        /* 共通カードスタイル */
-        .card-base {
-            background-color: white;
-            border-radius: 1rem; /* rounded-2xl for mobile */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-        @media (min-width: 768px) {
-            .card-base {
-                border-radius: 1.5rem; /* rounded-3xl for PC */
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* Responsive */
+        @media (max-width: 768px) {
+            #friendly-showcase .bento-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
             }
-        }
-        .card-base:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     </style>
 </head>
-<body class="text-gray-800 font-sans antialiased">
+<body class="text-gray-600 font-sans antialiased">
 
-    <!-- 1. プログレスバー -->
-    <div class="fixed top-0 left-0 w-full h-1 md:h-2 bg-gray-200 z-50">
-        <div id="progress-bar" class="h-full bg-salmon transition-all duration-300 ease-out" style="width: 0%;"></div>
+<div id="friendly-showcase">
+    <!-- 1. Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1.5 z-50 bg-white/50">
+        <div id="progress-bar" class="h-full bg-fr-salmon transition-all duration-300 ease-out w-0 rounded-r-full"></div>
     </div>
 
-    <!-- 言語切り替えボタン -->
-    <button id="lang-toggle" class="fixed top-4 left-4 z-50 bg-white/90 backdrop-blur border border-slate-300 rounded-full px-4 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors shadow-sm">
-        <span id="current-lang">JP</span> <span class="text-slate-300">|</span> <span id="target-lang" class="text-slate-400">EN</span>
-    </button>
+    <!-- 3D Background -->
+    <canvas id="webgl-bg"></canvas>
 
-    <!-- 戻るボタン (サブページ表示時のみ有効化) -->
-    <button id="back-button" class="fixed top-4 right-4 z-50 bg-salmon text-white rounded-full px-4 py-1 text-xs font-bold shadow-md hover:bg-red-400 transition-all hidden" onclick="hideSubPage()">
-        <span data-i18n="back_btn">← 戻る</span>
-    </button>
+    <!-- Header / Nav -->
+    <header class="fr-fixed fr-top-0 fr-left-0 fr-w-full fr-z-50 fr-p-4 fr-flex fr-justify-between fr-items-center fr-pointer-events-none">
+        <!-- Language Switcher -->
+        <button id="lang-toggle" class="bento-card fr-px-4 fr-py-2 fr-text-sm fr-font-bold fr-text-fr-text fr-pointer-events-auto hover:fr-bg-white hover:fr-text-fr-salmon fr-transition-colors !fr-rounded-full !fr-shadow-card">
+            <span id="current-lang">JP</span> <span class="fr-text-gray-300 fr-mx-1">|</span> <span id="target-lang" class="fr-text-gray-400">EN</span>
+        </button>
+        
+        <!-- CTI Link -->
+        <a href="https://www.thecoaches.co.jp/" target="_blank" class="bento-card fr-px-4 fr-py-2 fr-text-xs fr-font-bold fr-no-underline fr-text-fr-text fr-pointer-events-auto hover:fr-text-fr-salmon fr-transition-colors !fr-rounded-full !fr-shadow-card">
+            CTI JAPAN
+        </a>
+    </header>
 
-    <!-- 2. ナビゲーションドット (TOC) -->
-    <nav id="main-nav" class="fixed right-2 md:right-4 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-2 md:gap-3 transition-opacity duration-300">
-        <button onclick="scrollToSlide(0)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Top"></button>
-        <button onclick="scrollToSlide(1)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Coaching"></button>
-        <button onclick="scrollToSlide(2)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="About Co-Active"></button>
-        <button onclick="scrollToSlide(3)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="My Journey"></button>
-        <button onclick="scrollToSlide(4)" class="nav-dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-gray-400 hover:bg-salmon transition-colors" aria-label="Flow"></button>
+    <!-- Navigation Dots -->
+    <nav class="fixed right-2 md:right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3">
+        <button onclick="scrollToSlide(0)" class="nav-dot w-3 h-3 rounded-full border border-gray-300 bg-white hover:bg-fr-salmon transition-colors" aria-label="Top"></button>
+        <button onclick="scrollToSlide(1)" class="nav-dot w-3 h-3 rounded-full border border-gray-300 bg-white hover:bg-fr-salmon transition-colors" aria-label="About Coaching"></button>
+        <button onclick="scrollToSlide(2)" class="nav-dot w-3 h-3 rounded-full border border-gray-300 bg-white hover:bg-fr-salmon transition-colors" aria-label="About Co-Active"></button>
+        <button onclick="scrollToSlide(3)" class="nav-dot w-3 h-3 rounded-full border border-gray-300 bg-white hover:bg-fr-salmon transition-colors" aria-label="My Journey"></button>
+        <button onclick="scrollToSlide(4)" class="nav-dot w-3 h-3 rounded-full border border-gray-300 bg-white hover:bg-fr-salmon transition-colors" aria-label="Flow"></button>
     </nav>
 
-    <!-- メインスクロールコンテナ -->
+    <!-- Main Content Container -->
     <main id="main-scroll" class="scroll-container">
 
-        <!-- Slide 1 -->
-        <section class="slide-section bg-gradient-to-br from-slate-900 via-slate-800 to-salmon text-white relative">
-            <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                <div class="absolute top-1/4 left-1/4 text-4xl md:text-6xl animate-float opacity-30">✨</div>
-                <div class="absolute top-1/3 right-1/4 text-3xl md:text-5xl animate-float-delayed opacity-30">💡</div>
-                <div class="absolute bottom-1/4 left-1/3 text-2xl md:text-4xl animate-float-slow opacity-30">🌟</div>
-            </div>
-            <div class="container mx-auto px-4 text-center z-10 max-w-4xl pt-12 pb-12 md:py-10 flex flex-col justify-start md:justify-center min-h-screen">
-                <h1 class="text-3xl md:text-6xl font-black mb-6 md:mb-8 leading-tight drop-shadow-lg shrink-0" data-i18n="s1_title">
-                    <span class="inline-block animate-float mr-2">🤔</span> コーチングって何？
+        <!-- SECTION 1: HERO -->
+        <section class="slide-section fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-start md:fr-justify-center fr-pt-32 fr-pb-20 fr-px-4 fr-relative" id="slide-1">
+            <div class="fr-container fr-mx-auto fr-max-w-4xl fr-z-10">
+                
+                <h1 class="fr-text-4xl md:fr-text-6xl fr-font-rounded fr-font-bold fr-mb-10 fr-text-center fr-text-fr-text" data-i18n="s1_title">
+                    <span class="fr-inline-block fr-animate-bounce fr-mr-2">🌱</span> コーチングって何？
                 </h1>
-                <div class="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-2xl mx-auto border border-white/10 shadow-2xl shrink-0">
-                    <p class="text-sm md:text-lg text-gray-100 leading-relaxed" data-i18n="s1_desc">
-                        この資料では、<br><strong>「そもそもコーチングとは何か？」</strong><br><strong>「具体的にどのように進むのか？」</strong><br>について、わかりやすくお伝えします。
-                    </p>
-                </div>
-                <div class="mt-8 md:mt-12 animate-bounce opacity-80 shrink-0">
-                    <span class="text-xs md:text-sm">Scroll Down</span><br>⬇
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 2 -->
-        <section class="slide-section bg-blue-50 relative">
-            <div class="container mx-auto px-4 md:px-6 max-w-6xl pt-12 pb-12 md:py-0 flex flex-col justify-start md:justify-center min-h-screen">
-                <h2 class="text-2xl md:text-4xl font-black text-center mb-6 md:mb-8 text-slate-800 shrink-0" data-i18n="s2_title">
-                    <span class="inline-block animate-float mr-2">💡</span> コーチングって？
-                </h2>
-                <div class="max-w-4xl mx-auto text-center mb-8 md:mb-16 w-full shrink-0">
-                    <div class="card-base p-6 md:p-10 text-left md:text-center shadow-md relative flex flex-col items-center bg-orange-50/80 border border-orange-100">
-                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-2xl md:text-4xl mb-3 md:mb-4 text-salmon shadow-sm shrink-0">🔥</div>
-                        <h3 class="text-lg md:text-2xl font-bold text-slate-800 mb-2 md:mb-4" data-i18n="s2_main_title">行動の力を引き出すコミュニケーション</h3>
-                        <p class="text-slate-700 text-sm md:text-xl leading-relaxed" data-i18n="s2_main_text">
-                            本人特有の<span class="text-salmon font-bold">感情</span>や<span class="text-salmon font-bold">思考</span>の働きを<br class="hidden md:inline"><span class="font-bold border-b-4 border-salmon/30">行動の力</span>に変えることで、<br class="inline md:block"><span class="font-bold">目標達成</span>や<span class="font-bold">自己実現</span>を促す技術です。
+                
+                <div class="bento-grid">
+                    <!-- Intro Card -->
+                    <div class="fr-col-span-12 md:fr-col-span-7 bento-card fr-p-8 md:fr-p-12 fr-flex fr-flex-col fr-justify-center">
+                        <span class="fr-bg-fr-salmon/10 fr-text-fr-salmon fr-text-xs fr-font-bold fr-px-3 fr-py-1 fr-rounded-full fr-mb-4 fr-w-max">Introduction</span>
+                        <p class="fr-text-base md:fr-text-lg fr-font-medium fr-leading-loose fr-text-fr-text" data-i18n="s1_desc">
+                            この資料では、<br><strong>「そもそもコーチングとは何か？」</strong><br><strong>「具体的にどのように進むのか？」</strong><br>について、わかりやすくお伝えします。
                         </p>
                     </div>
-                </div>
-                <p class="text-center text-gray-400 font-bold mb-4 md:mb-8 text-xs md:text-sm tracking-widest shrink-0" data-i18n="s2_diff_title">ー 他との違い ー</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 w-full max-w-6xl mx-auto shrink-0 pb-4">
-                    <div class="card-base p-4 md:p-6 flex flex-col items-center text-center hover:bg-white/80 transition-colors border border-transparent hover:border-blue-100">
-                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-blue-50 flex items-center justify-center text-xl md:text-3xl mb-2 md:mb-4 text-blue-500">👔</div>
-                        <h4 class="text-sm md:text-lg font-bold text-slate-700 mb-1 md:mb-2" data-i18n="s2_c1_title">コンサルティング</h4>
-                        <p class="text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed" data-i18n="s2_c1_text">専門知識に基づき<br class="md:hidden">「解決策や戦略」を提供</p>
-                    </div>
-                    <div class="card-base p-4 md:p-6 flex flex-col items-center text-center hover:bg-white/80 transition-colors border border-transparent hover:border-green-100">
-                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-green-50 flex items-center justify-center text-xl md:text-3xl mb-2 md:mb-4 text-green-500">🤝</div>
-                        <h4 class="text-sm md:text-lg font-bold text-slate-700 mb-1 md:mb-2" data-i18n="s2_c2_title">メンタリング</h4>
-                        <p class="text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed" data-i18n="s2_c2_text">先輩の立場から<br class="md:hidden">「経験による助言」を提供</p>
-                    </div>
-                    <div class="card-base p-4 md:p-6 flex flex-col items-center text-center hover:bg-white/80 transition-colors border border-transparent hover:border-purple-100">
-                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-purple-50 flex items-center justify-center text-xl md:text-3xl mb-2 md:mb-4 text-purple-500">🩹</div>
-                        <h4 class="text-sm md:text-lg font-bold text-slate-700 mb-1 md:mb-2" data-i18n="s2_c3_title">カウンセリング</h4>
-                        <p class="text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed" data-i18n="s2_c3_text">心理的な不調に対し<br class="md:hidden">「癒しと回復」を提供</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Slide 3 -->
-        <section class="slide-section bg-white relative justify-start md:justify-center">
-            <div class="container mx-auto px-4 md:px-6 max-w-6xl pt-12 pb-16 md:py-20 flex flex-col justify-start md:justify-center flex-grow">
-                <h2 class="text-2xl md:text-4xl font-black text-center mb-6 md:mb-8 text-slate-800 shrink-0" data-i18n="s3_title">提供するのは<br class="md:hidden"><span class="text-salmon">Co-Activeコーチング</span></h2>
-                <div class="text-center mb-8 md:mb-12 shrink-0">
-                    <div class="inline-block p-3 md:p-4 rounded-full bg-orange-50 mb-2 md:mb-4 animate-float border-2 border-white shadow-sm"><div class="text-3xl md:text-5xl">🧭</div></div>
-                    <h3 class="text-lg md:text-3xl font-bold text-slate-800 mb-2 md:mb-4 px-2" data-i18n="s3_main_title">「話すテーマ」は、<br class="md:hidden">内面への旅のきっかけに過ぎません</h3>
-                    <p class="text-slate-600 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto px-2" data-i18n="s3_main_text">
-                        具体的な悩みや目標の裏側にある、<br class="hidden md:inline">あなた自身の<span class="font-bold border-b-4 border-salmon/30">本当の願いや可能性</span>を探求します。<br><span class="text-xs md:text-sm text-gray-400 mt-2 block">（※具体的な解決策のアドバイスは行いません）</span>
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-8 w-full max-w-6xl mx-auto mb-8 md:mb-12 shrink-0">
-                    <div class="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-red-50/50 hover:bg-red-50 transition-colors duration-300">
-                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white flex items-center justify-center text-xl md:text-3xl mr-4 md:mr-0 md:mb-4 text-salmon shadow-sm shrink-0">💎</div>
-                        <div><h4 class="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2" data-i18n="s3_f1_title">クライアントへの信頼</h4><p class="text-xs md:text-sm text-slate-600 leading-relaxed" data-i18n="s3_f1_text">あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。</p></div>
-                    </div>
-                    <div class="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-blue-50/50 hover:bg-blue-50 transition-colors duration-300">
-                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white flex items-center justify-center text-xl md:text-3xl mr-4 md:mr-0 md:mb-4 text-softblue shadow-sm shrink-0">⚖️</div>
-                        <div><h4 class="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2" data-i18n="s3_f2_title">あり方と行動</h4><p class="text-xs md:text-sm text-slate-600 leading-relaxed" data-i18n="s3_f2_text">目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。</p></div>
-                    </div>
-                    <div class="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-6 rounded-2xl md:rounded-[1.5rem] bg-emerald-50/50 hover:bg-emerald-50 transition-colors duration-300">
-                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white flex items-center justify-center text-xl md:text-3xl mr-4 md:mr-0 md:mb-4 text-emerald-600 shadow-sm shrink-0">🌏</div>
-                        <div><h4 class="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2" data-i18n="s3_f3_title">人生全体を扱う</h4><p class="text-xs md:text-sm text-slate-600 leading-relaxed" data-i18n="s3_f3_text">テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。</p></div>
-                    </div>
-                </div>
-                <div class="text-center pb-12 md:pb-0 shrink-0">
-                    <a href="https://www.thecoaches.co.jp/" target="_blank" class="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-ctipurple to-purple-800 text-white rounded-full hover:shadow-xl transition-all shadow-md transform hover:-translate-y-1 border-t border-white/20">
-                        <span class="font-bold tracking-widest text-xs md:text-sm" data-i18n="s3_link">CTI JAPAN 公式サイト</span>
-                        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                    </a>
-                </div>
-                <!-- スマホ用商標 -->
-                <div class="md:hidden text-center mt-4 pb-4 text-[10px] text-gray-400 opacity-60" data-i18n="trademark">Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。</div>
-            </div>
-            <!-- PC用商標 -->
-            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60 hidden md:block" data-i18n="trademark">Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。</div>
-        </section>
-
-        <!-- Slide 4 -->
-        <section class="slide-section bg-green-50 overflow-y-auto justify-start md:justify-center">
-            <div class="container mx-auto px-4 md:px-6 max-w-4xl pt-12 pb-16 md:py-12 flex flex-col justify-start md:justify-center min-h-screen">
-                <h2 class="text-2xl md:text-4xl font-black text-center mb-8 md:mb-12 text-slate-800 shrink-0">
-                    <span class="inline-block animate-float mr-2">🌱</span> <span data-i18n="s4_title">日下のCo-Activeの旅</span>
-                </h2>
-                <div class="relative pl-0 md:pl-0 w-full shrink-0">
-                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-green-200 transform -translate-x-1/2"></div>
-                    <div class="absolute left-3 md:hidden top-0 bottom-0 w-0.5 bg-green-200"></div>
-                    <div class="space-y-4 md:space-y-0">
-                        <div class="relative flex justify-end md:justify-start md:mb-8 items-center group">
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-400 border-4 border-green-100 z-10"></span>
-                            <div class="w-full pl-8 md:w-1/2 md:pl-0 md:pr-12"><div class="card-base p-4 md:p-6 relative hover:bg-green-50/50"><span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-400 border-2 border-green-100 z-10"></span><div class="text-[10px] md:text-xs text-green-600 font-bold mb-1 tracking-wider">STORY</div><h3 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-slate-800" data-i18n="s4_item1_title">きっかけ（課題感）</h3><p class="text-xs md:text-sm text-gray-600" data-i18n="s4_item1_text">自分自身のリーダーシップや対人支援への課題感から、CTIの門を叩きました。</p></div></div>
+                    <!-- QR Card -->
+                    <div class="fr-col-span-12 md:fr-col-span-5 bento-card fr-p-8 fr-flex fr-flex-col fr-items-center fr-justify-center fr-text-center">
+                        <div class="fr-bg-white fr-p-2 fr-rounded-xl fr-mb-4 fr-w-40 fr-h-40 fr-flex fr-items-center fr-justify-center fr-shadow-inner">
+                            <img src="qr_code_line.png" alt="LINE QR" class="fr-w-full fr-h-full fr-object-cover fr-rounded-lg" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'color:#aaa;font-size:0.8rem\'>[QR Code]</span>'">
                         </div>
-                        <div class="relative flex justify-end items-center group">
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-500 border-4 border-green-100 z-10"></span>
-                            <div class="w-full pl-8 md:w-1/2 md:pl-12 md:pr-0 text-left"><div class="card-base p-4 md:p-6 relative hover:bg-green-50/50"><span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-500 border-2 border-green-100 z-10"></span><div class="text-[10px] md:text-xs text-green-600 font-bold mb-1 tracking-wider" data-i18n="s4_item2_date">2025 GW前</div><h3 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-slate-800" data-i18n="s4_item2_title">基礎コース修了</h3><p class="text-xs md:text-sm text-gray-600" data-i18n="s4_item2_text">Co-Activeの土台となる考え方をインストール。</p></div></div>
-                        </div>
-                        <div class="relative flex justify-end md:justify-start md:mb-8 items-center group">
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-600 border-4 border-green-100 z-10"></span>
-                            <div class="w-full pl-8 md:w-1/2 md:pl-0 md:pr-12"><div class="card-base p-4 md:p-6 relative hover:bg-green-50/50"><span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-600 border-2 border-green-100 z-10"></span><div class="text-[10px] md:text-xs text-green-600 font-bold mb-1 tracking-wider" data-i18n="s4_item3_date">2025 6〜9月</div><h3 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-slate-800" data-i18n="s4_item3_title">応用コース修了</h3><p class="text-xs md:text-sm text-gray-600" data-i18n="s4_item3_text">4つのコースを通じて、コーチングの幅を広げました。</p></div></div>
-                        </div>
-                        <div class="relative flex justify-end items-center group">
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-6 h-6 rounded-full bg-emerald-500 border-4 border-white animate-pulse z-20"></span>
-                            <div class="w-full pl-8 md:w-1/2 md:pl-12 md:pr-0 text-left"><div class="card-base p-4 md:p-6 relative border-2 border-emerald-400 transform md:scale-105"><span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-4 h-4 rounded-full bg-emerald-500 border-2 border-white animate-pulse z-10"></span><div class="inline-block bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-full mb-1">NOW</div><div class="text-[10px] md:text-xs text-emerald-600 font-bold mb-1 tracking-wider" data-i18n="s4_item4_date">2026 1月〜</div><h3 class="font-bold text-base md:text-xl mb-1 md:mb-2 text-slate-800" data-i18n="s4_item4_title">上級コース受講中</h3><p class="text-xs md:text-sm text-gray-600" data-i18n="s4_item4_text">プロフェッショナルとしての認定資格取得に向けて、実践と研鑽の日々。</p></div></div>
-                        </div>
-                        <div class="relative flex justify-end md:justify-start items-center opacity-70 hover:opacity-100 transition-opacity">
-                            <span class="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-5 h-5 rounded-full bg-green-200 border-4 border-green-100 z-10"></span>
-                            <div class="w-full pl-8 md:w-1/2 md:pl-0 md:pr-12"><div class="card-base p-4 md:p-6 relative bg-transparent border-2 border-dashed border-green-300 shadow-none"><span class="md:hidden absolute top-1/2 transform -translate-y-1/2 -left-[1.35rem] w-3 h-3 rounded-full bg-green-200 border-2 border-green-100 z-10"></span><div class="text-[10px] md:text-xs text-green-400 font-bold mb-1 tracking-wider">FUTURE</div><h3 class="font-bold text-base md:text-lg mb-1 md:text-slate-600" data-i18n="s4_item5_title">CPCC取得予定</h3><p class="text-xs md:text-sm text-gray-600" data-i18n="s4_item5_text">Certified Professional Co-Active Coachへ。</p></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 商標 (PCのみ表示) -->
-            <div class="absolute bottom-4 right-4 md:right-12 text-[10px] text-gray-400 text-right opacity-60 hidden md:block" data-i18n="trademark">Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。</div>
-        </section>
-
-        <!-- Slide 5 -->
-        <section class="slide-section bg-lightorange relative overflow-y-auto justify-start md:justify-center">
-            <div class="container mx-auto px-4 md:px-6 max-w-4xl pt-12 pb-16 md:py-20 text-center flex flex-col justify-start md:justify-center flex-grow">
-                <h2 class="text-2xl md:text-4xl font-black mb-6 md:mb-10 text-slate-800 shrink-0">
-                    <span class="inline-block animate-bounce mr-2">🚀</span> <span data-i18n="s5_title">コーチングの具体的な流れ</span>
-                </h2>
-                <div class="flex flex-col gap-2 md:gap-3 relative w-full shrink-0 pb-12">
-                    <!-- STEP 1 -->
-                    <div class="flex gap-2 md:gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12"><div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10 mb-1">1</div><div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]"><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span></div></div>
-                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform flex flex-row items-center justify-between rounded-xl md:rounded-[1.5rem] mb-1 flex-1">
-                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0"><span class="text-xl md:text-2xl shrink-0">👀</span><div class="min-w-0"><h3 class="font-bold text-slate-800 text-base md:text-xl truncate" data-i18n="s5_s1_title">資料確認</h3><p class="text-xs md:text-base text-slate-500 truncate" data-i18n="s5_s1_desc">まずはこの資料をチェック</p></div></div><p class="text-xs md:text-sm font-bold text-gray-400 whitespace-nowrap ml-2 shrink-0" data-i18n="s5_s1_status">現在</p>
-                        </div>
-                    </div>
-                    <!-- STEP 2 -->
-                    <div class="flex gap-2 md:gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12"><div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-salmon text-white flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white shadow-lg animate-pulse z-10 mb-1">2</div><div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]"><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span></div></div>
-                        <div class="card-base p-3 md:p-6 w-full text-left transform md:scale-105 shadow-xl rounded-xl md:rounded-[1.5rem] relative overflow-hidden mb-1 border border-salmon/20 flex-1">
-                            <span class="absolute top-0 right-0 bg-salmon text-white text-[9px] md:text-[10px] px-2 md:px-3 py-0.5 md:py-1 rounded-bl-xl font-bold">Action!</span>
-                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-3">
-                                <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0"><span class="text-xl md:text-2xl shrink-0">✨</span><div class="min-w-0"><h3 class="font-bold text-slate-800 text-base md:text-xl truncate" data-i18n="s5_s2_title">サンプルセッション</h3><p class="text-sm md:text-base text-slate-600"><span class="font-bold text-salmon" data-i18n="s5_s2_price">0円 / 90分</span></p></div></div>
-                                <div class="flex gap-2">
-                                    <div class="text-[10px] md:text-sm text-slate-600 font-bold bg-orange-50 px-2 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl text-center md:text-right break-all md:break-normal flex-grow" data-i18n="s5_s2_action">
-                                        メール(<a href="mailto:kus4tai@gmail.com" class="text-salmon underline">kus4tai@gmail.com</a>)か<br>SNSで一声かけてください！
-                                    </div>
-                                    <!-- 詳細ボタン -->
-                                    <button class="bg-slate-700 text-white text-[10px] md:text-xs px-3 py-1 rounded-lg hover:bg-slate-600 transition-colors shadow-sm flex items-center justify-center whitespace-nowrap" onclick="showSubPage()" data-i18n="s5_s2_detail">
-                                        詳細を見る
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- STEP 3 -->
-                    <div class="flex gap-2 md:gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12"><div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10 mb-1">3</div><div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]"><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span></div></div>
-                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-xl md:rounded-[1.5rem] flex items-center justify-between mb-1 flex-1">
-                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0"><span class="text-xl md:text-2xl shrink-0">📝</span><div class="min-w-0"><h3 class="font-bold text-slate-800 text-base md:text-xl truncate" data-i18n="s5_s3_title">継続契約</h3><p class="text-xs md:text-base text-slate-500 truncate" data-i18n="s5_s3_desc">継続意思があれば契約へ</p></div></div><p class="text-[10px] md:text-xs text-gray-400 whitespace-nowrap ml-2 shrink-0" data-i18n="s5_s3_note">※詳細はサンプル時に</p>
-                        </div>
-                    </div>
-                    <!-- PHASE DIVIDER -->
-                    <div class="flex gap-4 items-center pl-[2rem] md:pl-[3.5rem] -mt-1 mb-1 w-full"><div class="h-px bg-slate-300 flex-grow"></div><span class="text-[10px] md:text-xs font-bold text-slate-400 bg-lightorange px-2 whitespace-nowrap" data-i18n="s5_phase_text">ここまでが準備ステップ</span><div class="h-px bg-slate-300 flex-grow"></div></div>
-                    <!-- STEP 4 -->
-                    <div class="flex gap-2 md:gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12"><div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10 mb-1">4</div><div class="w-0.5 flex-grow bg-slate-200 relative min-h-[16px]"><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-[10px] md:text-xs">▼</span></div></div>
-                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-xl md:rounded-[1.5rem] flex items-center justify-between mb-1 flex-1">
-                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0"><span class="text-xl md:text-2xl shrink-0">🏁</span><div class="min-w-0"><h3 class="font-bold text-slate-800 text-base md:text-xl truncate" data-i18n="s5_s4_title">導入セッション</h3><p class="text-xs md:text-base text-slate-500 truncate" data-i18n="s5_s4_desc">ここから開始</p></div></div><div class="text-right whitespace-nowrap ml-2 shrink-0"><span class="block text-[10px] md:text-sm font-bold text-slate-700" data-i18n="s5_s4_time">90分</span><span class="block text-xs md:text-base font-black text-salmon" data-i18n="s5_s4_price">2,000円</span></div>
-                        </div>
-                    </div>
-                    <!-- STEP 5 -->
-                    <div class="flex gap-2 md:gap-4 items-stretch">
-                        <div class="flex flex-col items-center shrink-0 w-8 md:w-12"><div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-slate-300 text-slate-500 flex items-center justify-center font-bold text-xs md:text-sm ring-4 ring-white z-10">5</div></div>
-                        <div class="card-base p-3 md:p-6 w-full text-left hover:-translate-y-1 transition-transform rounded-xl md:rounded-[1.5rem] flex items-center justify-between flex-1">
-                            <div class="flex items-center gap-2 md:gap-4 flex-1 min-w-0"><span class="text-xl md:text-2xl shrink-0">🔄</span><div class="min-w-0"><h3 class="font-bold text-slate-800 text-base md:text-xl truncate" data-i18n="s5_s5_title">通常セッション</h3><p class="text-xs md:text-base text-slate-500 truncate" data-i18n="s5_s5_desc">月1回ペース</p></div></div><div class="text-right whitespace-nowrap ml-2 shrink-0"><span class="block text-[10px] md:text-sm font-bold text-slate-700" data-i18n="s5_s5_time">60分</span><span class="block text-xs md:text-base font-black text-salmon" data-i18n="s5_s5_price">2,000円<span class="text-[9px] md:text-xs font-normal text-gray-500" data-i18n="s5_per_session">/回</span></span></div>
-                        </div>
-                    </div>
-                </div>
-                <p class="mt-6 text-slate-600 font-bold animate-pulse text-xs md:text-sm pb-8 shrink-0" data-i18n="s5_footer">まずはサンプルセッションでお会いできるのを<br>楽しみにしています！</p>
-            </div>
-        </section>
-
-        <!-- サブページ: サンプルセッション前に -->
-        <div id="sub-page-prep" class="sub-page">
-            <!-- Header -->
-            <div class="bg-salmon text-white p-6 sticky top-0 z-50 shadow-md">
-                <h2 class="text-xl font-bold text-center pt-8 md:pt-0" data-i18n="sub_title">サンプルセッションの前に<br>知ってほしいこと</h2>
-            </div>
-            
-            <div class="container mx-auto px-6 py-10 max-w-3xl">
-                <!-- Section 1 -->
-                <div class="mb-12">
-                    <h3 class="text-2xl font-black text-slate-800 mb-6 border-b-4 border-salmon/30 inline-block" data-i18n="sub_s1_title">特殊な関わり</h3>
-                    <div class="space-y-6">
-                        <div class="card-base p-6 border-l-4 border-salmon">
-                            <h4 class="font-bold text-lg text-slate-800 mb-2 flex items-center gap-2"><span class="text-2xl">💃</span> <span data-i18n="sub_s1_c1_title">エンボディメント</span></h4>
-                            <p class="text-sm text-gray-600" data-i18n="sub_s1_c1_desc">頭だけでなく、身体感覚や感情全体を使います。動いたり、その感覚を味わったりすることがあります。</p>
-                        </div>
-                        <div class="card-base p-6 border-l-4 border-softblue">
-                            <h4 class="font-bold text-lg text-slate-800 mb-2 flex items-center gap-2"><span class="text-2xl">🪞</span> <span data-i18n="sub_s1_c2_title">反映</span></h4>
-                            <p class="text-sm text-gray-600" data-i18n="sub_s1_c2_desc">あなたから見えているもの、聞こえているものを鏡のようにそのまま伝えます。</p>
-                        </div>
-                        <div class="card-base p-6 border-l-4 border-salmon">
-                            <h4 class="font-bold text-lg text-slate-800 mb-2 flex items-center gap-2"><span class="text-2xl">📣</span> <span data-i18n="sub_s1_c3_title">承認</span></h4>
-                            <p class="text-sm text-gray-600" data-i18n="sub_s1_c3_desc">あなたの存在そのものや、行動の奥にある意図を言葉にして伝えます。</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section 2 -->
-                <div class="mb-12">
-                    <h3 class="text-2xl font-black text-slate-800 mb-6 border-b-4 border-softblue inline-block" data-i18n="sub_s2_title">対等なパートナーシップ</h3>
-                    <div class="card-base p-8 text-center bg-blue-50">
-                        <div class="text-5xl mb-4">🤝</div>
-                        <p class="text-base text-gray-700 font-bold mb-2" data-i18n="sub_s2_desc">先生と生徒ではありません。<br>共に探求する対等なパートナーです。</p>
-                    </div>
-                </div>
-
-                <!-- Section 3 -->
-                <div class="mb-12">
-                    <h3 class="text-2xl font-black text-slate-800 mb-6 border-b-4 border-salmon/30 inline-block" data-i18n="sub_s3_title">トピックの選び方</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="card-base p-6 text-center">
-                            <div class="text-4xl mb-3">😶‍🌫️</div>
-                            <h4 class="font-bold text-slate-800 mb-2" data-i18n="sub_s3_c1_title">もやもやしていること</h4>
-                            <p class="text-sm text-gray-600" data-i18n="sub_s3_c1_desc">言葉にならない違和感や、漠然とした悩みで構いません。そこから始めましょう。</p>
-                        </div>
-                        <a href="https://balance-wheel.work/" target="_blank" class="card-base p-6 text-center hover:bg-orange-50 transition-colors group relative overflow-hidden block">
-                            <div class="absolute top-0 right-0 bg-softblue text-white text-xs px-2 py-1">Link</div>
-                            <div class="text-4xl mb-3">🎡</div>
-                            <h4 class="font-bold text-slate-800 mb-2" data-i18n="sub_s3_c2_title">人生の輪</h4>
-                            <p class="text-sm text-gray-600 mb-4" data-i18n="sub_s3_c2_desc">キャリア、お金、健康など、人生の各分野の満足度をチェックしてテーマを見つけます。</p>
-                            <span class="text-xs font-bold text-salmon border-b border-salmon" data-i18n="sub_s3_c2_link">ツールを見る</span>
+                        <p class="fr-text-xs fr-font-bold fr-mb-3 fr-text-fr-text-light" data-i18n="s1_line_text">
+                            コーチングに関する問い合わせや<br>サンプルセッションの相談はこちらから
+                        </p>
+                        <a href="https://line.me/R/ti/p/@000aaaaa" target="_blank" class="fr-inline-flex fr-items-center fr-gap-2 fr-text-white fr-bg-fr-line fr-px-5 fr-py-2 fr-rounded-full fr-font-bold fr-text-sm hover:fr-opacity-90 fr-transition-opacity fr-shadow-md">
+                            <span>LINE Official</span>
                         </a>
                     </div>
                 </div>
 
-                <div class="text-center mt-12 pb-12">
-                    <button class="bg-gray-400 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-500 transition-colors" onclick="hideSubPage()" data-i18n="back_btn_large">元の画面に戻る</button>
+                <div class="fr-mt-12 fr-text-center fr-animate-bounce fr-text-fr-text-light">
+                    <span class="fr-text-2xl">⌄</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: DEFINITION & DIFFERENCE -->
+        <section class="slide-section fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-start md:fr-justify-center fr-pt-24 fr-pb-20 fr-px-4 fr-bg-white/50" id="slide-2">
+            <div class="fr-container fr-mx-auto fr-max-w-6xl fr-z-10">
+                
+                <h2 class="fr-text-center fr-mb-12">
+                    <span class="fr-text-2xl md:fr-text-4xl fr-font-rounded fr-font-bold fr-text-fr-text fr-border-b-4 fr-border-fr-salmon/30 fr-pb-2" data-i18n="s2_title">
+                        コーチングって？
+                    </span>
+                </h2>
+
+                <div class="bento-grid">
+                    <!-- Main Definition (Full Width) -->
+                    <div class="fr-col-span-12 bento-card fr-p-8 md:fr-p-12 fr-text-center">
+                        <div class="fr-bg-fr-salmon/10 fr-w-16 fr-h-16 fr-rounded-full fr-flex fr-items-center fr-justify-center fr-text-3xl fr-mb-6 fr-mx-auto fr-text-fr-salmon">🔥</div>
+                        <h3 class="fr-text-xl md:fr-text-3xl fr-font-rounded fr-font-bold fr-text-fr-text fr-mb-6" data-i18n="s2_main_title">
+                            行動の力を引き出す<br>コミュニケーション
+                        </h3>
+                        <p class="fr-text-base md:fr-text-lg fr-leading-loose fr-text-fr-text" data-i18n="s2_main_text">
+                            本人特有の<span class="fr-text-fr-salmon fr-font-bold">感情</span>や<span class="fr-text-fr-salmon fr-font-bold">思考</span>の働きを
+                            <span class="marker-line">行動の力</span>に変えることで、<br class="fr-hidden md:fr-inline">
+                            <span class="fr-font-bold">目標達成</span>や<span class="fr-font-bold">自己実現</span>を促す技術です。
+                        </p>
+                    </div>
+
+                    <!-- Separator -->
+                    <div class="fr-col-span-12 fr-flex fr-items-center fr-justify-center fr-gap-4">
+                        <div class="fr-h-px fr-bg-gray-300 fr-flex-1"></div>
+                        <span class="fr-text-xs fr-font-bold fr-text-gray-400 fr-tracking-widest" data-i18n="s2_diff_title">他との違い</span>
+                        <div class="fr-h-px fr-bg-gray-300 fr-flex-1"></div>
+                    </div>
+
+                    <!-- 3 Grid Layout -->
+                    <div class="fr-col-span-12 md:fr-col-span-4 bento-card fr-p-6 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white">
+                        <div class="fr-text-3xl fr-mb-4 fr-bg-fr-blue/10 fr-w-14 fr-h-14 fr-flex fr-items-center fr-justify-center fr-rounded-full">👔</div>
+                        <h4 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s2_c1_title">コンサルティング</h4>
+                        <p class="fr-text-sm fr-text-gray-500 fr-leading-relaxed" data-i18n="s2_c1_text">専門知識に基づき<br>「解決策や戦略」を提供</p>
+                    </div>
+
+                    <div class="fr-col-span-12 md:fr-col-span-4 bento-card fr-p-6 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white">
+                        <div class="fr-text-3xl fr-mb-4 fr-bg-fr-green/10 fr-w-14 fr-h-14 fr-flex fr-items-center fr-justify-center fr-rounded-full">🤝</div>
+                        <h4 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s2_c2_title">メンタリング</h4>
+                        <p class="fr-text-sm fr-text-gray-500 fr-leading-relaxed" data-i18n="s2_c2_text">先輩の立場から<br>「経験による助言」を提供</p>
+                    </div>
+
+                    <div class="fr-col-span-12 md:fr-col-span-4 bento-card fr-p-6 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white">
+                        <div class="fr-text-3xl fr-mb-4 fr-bg-fr-salmon/10 fr-w-14 fr-h-14 fr-flex fr-items-center fr-justify-center fr-rounded-full">🩹</div>
+                        <h4 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s2_c3_title">カウンセリング</h4>
+                        <p class="fr-text-sm fr-text-gray-500 fr-leading-relaxed" data-i18n="s2_c3_text">心理的な不調に対し<br>「癒しと回復」を提供</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FEATURES -->
+        <section class="slide-section fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-start md:fr-justify-center fr-pt-24 fr-pb-20 fr-px-4" id="slide-3">
+            <div class="fr-container fr-mx-auto fr-max-w-6xl fr-z-10">
+                
+                <h2 class="fr-text-2xl md:fr-text-4xl fr-font-rounded fr-font-bold fr-text-center fr-mb-12 fr-text-fr-text" data-i18n="s3_title">
+                    提供するのは<br><span class="fr-text-fr-salmon">Co-Active</span> コーチング
+                </h2>
+
+                <div class="bento-grid">
+                    <!-- Left: Concept -->
+                    <div class="fr-col-span-12 md:fr-col-span-6 bento-card fr-p-8 md:fr-p-12 fr-flex fr-flex-col fr-justify-center fr-relative fr-overflow-hidden">
+                        <div class="fr-absolute fr-top-[-20px] fr-right-[-20px] fr-text-8xl fr-opacity-10 fr-rotate-12">🧭</div>
+                        <h3 class="fr-text-xl md:fr-text-2xl fr-font-bold fr-text-fr-text fr-mb-6 fr-leading-relaxed" data-i18n="s3_main_title">
+                            「話すテーマ」は、<br>きっかけに過ぎません
+                        </h3>
+                        <p class="fr-text-sm md:fr-text-base fr-text-gray-600 fr-leading-relaxed fr-relative fr-z-10" data-i18n="s3_main_text">
+                            具体的な悩みや目標の裏側にある、あなた自身の本当の願いや可能性を探求します。<br>
+                            <span class="fr-text-xs fr-text-gray-400 fr-mt-2 fr-block">（※具体的な解決策のアドバイスは行いません）</span>
+                        </p>
+                    </div>
+
+                    <!-- Right: Features -->
+                    <div class="fr-col-span-12 md:fr-col-span-6 fr-grid fr-grid-cols-1 fr-gap-4">
+                        <!-- Card 1 -->
+                        <div class="bento-card fr-p-6 fr-flex fr-gap-6 fr-items-center hover:fr-translate-x-2">
+                            <div class="fr-w-12 fr-h-12 fr-bg-fr-salmon/10 fr-rounded-xl fr-flex fr-items-center fr-justify-center fr-text-2xl fr-shrink-0">💎</div>
+                            <div>
+                                <h4 class="fr-text-lg fr-font-bold fr-text-fr-text" data-i18n="s3_f1_title">クライアントへの信頼</h4>
+                                <p class="fr-text-xs fr-text-gray-600 fr-mt-1" data-i18n="s3_f1_text">あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bento-card fr-p-6 fr-flex fr-gap-6 fr-items-center hover:fr-translate-x-2">
+                            <div class="fr-w-12 fr-h-12 fr-bg-fr-blue/10 fr-rounded-xl fr-flex fr-items-center fr-justify-center fr-text-2xl fr-shrink-0">⚖️</div>
+                            <div>
+                                <h4 class="fr-text-lg fr-font-bold fr-text-fr-text" data-i18n="s3_f2_title">あり方と行動</h4>
+                                <p class="fr-text-xs fr-text-gray-600 fr-mt-1" data-i18n="s3_f2_text">目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bento-card fr-p-6 fr-flex fr-gap-6 fr-items-center hover:fr-translate-x-2">
+                            <div class="fr-w-12 fr-h-12 fr-bg-fr-green/10 fr-rounded-xl fr-flex fr-items-center fr-justify-center fr-text-2xl fr-shrink-0">🌏</div>
+                            <div>
+                                <h4 class="fr-text-lg fr-font-bold fr-text-fr-text" data-i18n="s3_f3_title">人生全体を扱う</h4>
+                                <p class="fr-text-xs fr-text-gray-600 fr-mt-1" data-i18n="s3_f3_text">テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PC用商標 -->
+                <div class="fr-hidden md:fr-block fr-absolute fr-bottom-4 fr-right-12 fr-text-[10px] fr-text-gray-400" data-i18n="trademark">
+                    Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。
+                </div>
+                 <!-- スマホ用商標 -->
+                 <div class="md:fr-hidden fr-text-center fr-mt-8 fr-px-6">
+                    <p class="fr-text-[10px] fr-text-gray-400" data-i18n="trademark">
+                        Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: JOURNEY -->
+        <section class="slide-section fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-start md:fr-justify-center fr-pt-24 fr-pb-20 fr-px-4 fr-bg-white/50">
+            <div class="fr-container fr-mx-auto fr-max-w-4xl fr-z-10">
+                <h2 class="fr-text-center fr-mb-16">
+                    <span class="fr-text-2xl md:fr-text-4xl fr-font-rounded fr-font-bold fr-text-fr-text fr-border-b-4 fr-border-fr-green/30 fr-pb-1" data-i18n="s4_title">
+                        日下のCo-Activeの旅
+                    </span>
+                </h2>
+
+                <div class="fr-relative fr-w-full">
+                    <!-- Center Line -->
+                    <div class="fr-absolute fr-left-4 md:fr-left-1/2 fr-top-0 fr-bottom-0 fr-w-0.5 fr-bg-gray-300 fr-transform md:fr--translate-x-1/2"></div>
+
+                    <!-- Timeline Items -->
+                    <div class="fr-space-y-10">
+                        <!-- Item 1 -->
+                        <div class="fr-flex fr-flex-col md:fr-flex-row fr-items-center fr-gap-8 fr-relative">
+                            <div class="md:fr-w-1/2 md:fr-text-right md:fr-pr-12 fr-pl-12 md:fr-pl-0 fr-w-full">
+                                <div class="bento-card fr-p-4 hover:fr-bg-white">
+                                    <span class="fr-bg-gray-200 fr-text-gray-600 fr-px-2 fr-py-0.5 fr-rounded fr-text-xs fr-font-bold">STORY</span>
+                                    <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mt-2" data-i18n="s4_item1_title">きっかけ（課題感）</h3>
+                                    <p class="fr-text-sm fr-text-gray-600" data-i18n="s4_item1_text">自分自身のリーダーシップや対人支援への課題感から。</p>
+                                </div>
+                            </div>
+                            <div class="fr-absolute fr-left-4 md:fr-left-1/2 fr-w-3 fr-h-3 fr-bg-gray-400 fr-rounded-full fr-transform fr--translate-x-1/2 fr-border-2 fr-border-white"></div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="fr-flex fr-flex-col md:fr-flex-row-reverse fr-items-center fr-gap-8 fr-relative">
+                            <div class="md:fr-w-1/2 md:fr-text-left md:fr-pl-12 fr-pl-12 fr-w-full">
+                                <div class="bento-card fr-p-4 hover:fr-bg-white">
+                                    <span class="fr-text-fr-green fr-text-xs fr-font-bold" data-i18n="s4_item2_date">2025 GW</span>
+                                    <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mt-1" data-i18n="s4_item2_title">基礎コース修了</h3>
+                                    <p class="fr-text-sm fr-text-gray-600" data-i18n="s4_item2_text">Co-Activeの土台となる考え方をインストール。</p>
+                                </div>
+                            </div>
+                            <div class="fr-absolute fr-left-4 md:fr-left-1/2 fr-w-3 fr-h-3 fr-bg-fr-green fr-rounded-full fr-transform fr--translate-x-1/2 fr-border-2 fr-border-white"></div>
+                        </div>
+
+                         <!-- Item 3 -->
+                        <div class="fr-flex fr-flex-col md:fr-flex-row fr-items-center fr-gap-8 fr-relative">
+                            <div class="md:fr-w-1/2 md:fr-text-right md:fr-pr-12 fr-pl-12 md:fr-pl-0 fr-w-full">
+                                <div class="bento-card fr-p-4 hover:fr-bg-white">
+                                    <span class="fr-text-fr-green fr-text-xs fr-font-bold" data-i18n="s4_item3_date">2025 6-9月</span>
+                                    <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mt-1" data-i18n="s4_item3_title">応用コース修了</h3>
+                                    <p class="fr-text-sm fr-text-gray-600" data-i18n="s4_item3_text">4つのコースを通じて、コーチングの幅を広げました。</p>
+                                </div>
+                            </div>
+                            <div class="fr-absolute fr-left-4 md:fr-left-1/2 fr-w-3 fr-h-3 fr-bg-fr-green fr-rounded-full fr-transform fr--translate-x-1/2 fr-border-2 fr-border-white"></div>
+                        </div>
+
+                        <!-- Item 4 (NOW) -->
+                        <div class="fr-flex fr-flex-col md:fr-flex-row-reverse fr-items-center fr-gap-8 fr-relative">
+                            <div class="md:fr-w-1/2 md:fr-text-left md:fr-pl-12 fr-pl-12 fr-w-full">
+                                <div class="bento-card fr-p-6 fr-border-2 fr-border-fr-salmon fr-transform fr-scale-105">
+                                    <span class="fr-bg-fr-salmon fr-text-white fr-px-2 fr-py-0.5 fr-rounded fr-text-xs fr-font-bold">NOW</span>
+                                    <h3 class="fr-text-xl fr-font-bold fr-text-fr-text fr-mt-2" data-i18n="s4_item4_title">上級コース受講中</h3>
+                                    <p class="fr-text-sm fr-text-gray-600 fr-mt-1" data-i18n="s4_item4_text">プロフェッショナルとしての認定資格取得に向けて。</p>
+                                </div>
+                            </div>
+                            <div class="fr-absolute fr-left-4 md:fr-left-1/2 fr-w-5 fr-h-5 fr-bg-fr-salmon fr-rounded-full fr-transform fr--translate-x-1/2 fr-border-4 fr-border-white fr-shadow-sm fr-animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PC用商標 -->
+                <div class="fr-hidden md:fr-block fr-absolute fr-bottom-4 fr-right-12 fr-text-[10px] fr-text-gray-400 fr-opacity-60" data-i18n="trademark">
+                    Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。
+                </div>
+                 <!-- スマホ用商標 -->
+                 <div class="md:fr-hidden fr-text-center fr-mt-8 fr-px-6">
+                    <p class="fr-text-[10px] fr-text-gray-400" data-i18n="trademark">
+                        Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: FLOW -->
+        <section class="slide-section fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-start md:fr-justify-center fr-pt-24 fr-pb-20 fr-px-4">
+            <div class="fr-container fr-mx-auto fr-max-w-6xl fr-z-10">
+                <h2 class="fr-text-2xl md:fr-text-4xl fr-font-rounded fr-font-bold fr-text-center fr-mb-16 fr-text-fr-text" data-i18n="s5_title">
+                    コーチングの具体的な流れ
+                </h2>
+
+                <div class="fr-flex fr-flex-col md:fr-flex-row fr-gap-4 fr-justify-center fr-items-stretch">
+                    <!-- Step 1 -->
+                    <div class="bento-card fr-p-6 fr-flex-1 fr-flex fr-flex-col fr-justify-between">
+                        <div>
+                            <div class="fr-text-3xl fr-font-rounded fr-font-bold fr-text-gray-300 fr-mb-2">01</div>
+                            <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s5_s1_title">資料確認</h3>
+                            <p class="fr-text-sm fr-text-gray-600" data-i18n="s5_s1_desc">まずはこの資料をチェック</p>
+                        </div>
+                        <div class="fr-mt-4 fr-text-xs fr-font-bold fr-text-fr-main fr-bg-orange-50 fr-inline-block fr-px-2 fr-py-1 fr-rounded fr-self-start" data-i18n="s5_s1_status">CURRENT</div>
+                    </div>
+
+                    <!-- Step 2 (Highlighted) -->
+                    <div class="bento-card fr-p-6 fr-flex-1 fr-flex fr-flex-col fr-justify-between fr-transform md:fr-scale-105 fr-z-10 fr-border-2 fr-border-fr-salmon">
+                        <div>
+                            <div class="fr-text-3xl fr-font-rounded fr-font-bold fr-text-fr-salmon/50 fr-mb-2">02</div>
+                            <h3 class="fr-text-xl fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s5_s2_title">サンプルセッション</h3>
+                            <div class="fr-text-sm fr-font-bold fr-text-fr-salmon fr-mb-4" data-i18n="s5_s2_price">0円 / 90分</div>
+                            
+                            <!-- LINE Button Only -->
+                            <a href="https://line.me/R/ti/p/@000aaaaa" target="_blank" class="fr-flex fr-items-center fr-justify-center fr-gap-2 fr-bg-[#06C755] fr-text-white fr-w-full fr-py-3 fr-rounded-lg fr-font-bold fr-mb-2 hover:fr-opacity-90 fr-transition-opacity fr-text-sm fr-shadow-sm">
+                                <span data-i18n="s5_s2_action">LINEで連絡する</span>
+                            </a>
+                        </div>
+                        <button class="fr-w-full fr-bg-gray-100 fr-text-gray-600 fr-py-2 fr-rounded-lg fr-text-xs fr-font-bold hover:fr-bg-gray-200 fr-transition-colors" onclick="showSubPage()" data-i18n="s5_s2_detail">
+                            手順・詳細を見る
+                        </button>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bento-card fr-p-6 fr-flex-1 fr-flex fr-flex-col fr-justify-between">
+                        <div>
+                            <div class="fr-text-3xl fr-font-rounded fr-font-bold fr-text-gray-300 fr-mb-2">03</div>
+                            <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s5_s3_title">継続契約</h3>
+                            <p class="fr-text-sm fr-text-gray-600" data-i18n="s5_s3_desc">継続意思があれば契約へ</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="bento-card fr-p-6 fr-flex-1 fr-flex fr-flex-col fr-justify-between">
+                        <div>
+                            <div class="fr-text-3xl fr-font-rounded fr-font-bold fr-text-gray-300 fr-mb-2">04</div>
+                            <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s5_s4_title">導入セッション</h3>
+                            <p class="fr-text-sm fr-text-gray-600" data-i18n="s5_s4_desc">ここから開始</p>
+                        </div>
+                        <div class="fr-mt-4 fr-text-right">
+                            <span class="fr-block fr-font-bold fr-text-fr-text" data-i18n="s5_s4_price">2,000円</span>
+                            <span class="fr-text-xs fr-text-gray-500" data-i18n="s5_s4_time">90分</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="bento-card fr-p-6 fr-flex-1 fr-flex fr-flex-col fr-justify-between">
+                        <div>
+                            <div class="fr-text-3xl fr-font-rounded fr-font-bold fr-text-gray-300 fr-mb-2">05</div>
+                            <h3 class="fr-text-lg fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s5_s5_title">通常セッション</h3>
+                            <p class="fr-text-sm fr-text-gray-600" data-i18n="s5_s5_desc">月1回ペース</p>
+                        </div>
+                        <div class="fr-mt-4 fr-text-right">
+                            <span class="fr-block fr-font-bold fr-text-fr-text" data-i18n="s5_s5_price">2,000円</span>
+                            <span class="fr-text-xs fr-text-gray-500" data-i18n="s5_s5_time">60分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUB PAGE: STEPS (Specific Procedures) -->
+        <div id="sub-page-prep">
+            <!-- Header -->
+            <div class="fr-bg-white/90 fr-backdrop-blur fr-p-4 fr-sticky fr-top-0 fr-z-20 fr-border-b fr-border-gray-100">
+                <div class="fr-container fr-mx-auto fr-flex fr-justify-between fr-items-center">
+                    <h2 class="fr-text-lg fr-font-bold fr-text-fr-text" data-i18n="sub_title">サンプルセッションの手順</h2>
+                    <button class="fr-bg-gray-200 fr-text-gray-600 fr-px-4 fr-py-2 fr-rounded-full fr-text-xs fr-font-bold hover:fr-bg-gray-300" onclick="hideSubPage()">CLOSE</button>
+                </div>
+            </div>
+            
+            <div class="fr-container fr-mx-auto fr-px-6 fr-py-12 fr-max-w-2xl">
+                <!-- Step 1 -->
+                <div class="fr-mb-12 fr-relative fr-pl-12">
+                    <div class="fr-absolute fr-left-0 fr-top-0 fr-w-8 fr-h-8 fr-bg-fr-main fr-text-white fr-rounded-full fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm">1</div>
+                    <div class="fr-absolute fr-left-4 fr-top-8 fr-bottom-[-48px] fr-w-0.5 fr-bg-gray-300"></div>
+                    
+                    <h3 class="fr-text-xl fr-font-bold fr-text-fr-text fr-mb-4" data-i18n="sub_step1_title">LINE公式アカウントを追加</h3>
+                    <div class="bento-card fr-p-6 fr-flex fr-flex-col fr-items-center">
+                        <img src="qr_code_line.png" alt="LINE QR" class="fr-w-32 fr-h-32 fr-mb-4 fr-rounded-lg fr-border fr-border-gray-100">
+                        <a href="https://line.me/R/ti/p/@000aaaaa" target="_blank" class="fr-bg-[#06C755] fr-text-white fr-px-8 fr-py-3 fr-rounded-full fr-font-bold fr-text-sm hover:fr-opacity-90 fr-shadow-sm" data-i18n="sub_step1_btn">友達追加する</a>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="fr-mb-12 fr-relative fr-pl-12">
+                    <div class="fr-absolute fr-left-0 fr-top-0 fr-w-8 fr-h-8 fr-bg-fr-main fr-text-white fr-rounded-full fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm">2</div>
+                    <div class="fr-absolute fr-left-4 fr-top-8 fr-bottom-[-48px] fr-w-0.5 fr-bg-gray-300"></div>
+
+                    <h3 class="fr-text-xl fr-font-bold fr-text-fr-text fr-mb-4" data-i18n="sub_step2_title">日程調整</h3>
+                    <div class="bento-card fr-p-6">
+                        <p class="fr-text-base fr-text-gray-600 fr-leading-relaxed" data-i18n="sub_step2_desc">
+                            追加時の自動メッセージに従って、候補日時をお送りいただくか、調整用カレンダーからご予約ください。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="fr-mb-12 fr-relative fr-pl-12">
+                    <div class="fr-absolute fr-left-0 fr-top-0 fr-w-8 fr-h-8 fr-bg-fr-main fr-text-white fr-rounded-full fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm">3</div>
+                    
+                    <h3 class="fr-text-xl fr-font-bold fr-text-fr-text fr-mb-4" data-i18n="sub_step3_title">セッション実施</h3>
+                    <div class="bento-card fr-p-6 fr-mb-4">
+                        <h4 class="fr-font-bold fr-mb-2 fr-text-sm fr-text-fr-blue">💡 ここがポイント</h4>
+                        <p class="fr-text-sm fr-text-gray-600 fr-mb-4" data-i18n="sub_step3_point">
+                            当日はZoom等のオンラインツールを使用します。静かな環境をご用意ください。
+                        </p>
+                        <h4 class="fr-font-bold fr-mb-2 fr-text-sm fr-text-fr-salmon">🗣️ 会話の内容</h4>
+                        <p class="fr-text-sm fr-text-gray-600" data-i18n="sub_step3_content">
+                            「最近もやもやしていること」や「人生の輪で見つけたテーマ」などをトピックとして扱いながら、対話を進めていきます。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="fr-text-center">
+                     <button class="fr-text-gray-400 fr-underline fr-text-sm hover:fr-text-fr-text fr-font-bold" onclick="hideSubPage()" data-i18n="back_btn_large">元の画面に戻る</button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- JavaScript logic -->
+    <!-- Scripts -->
     <script>
-        // 翻訳データ
+        // 1. Three.js Background (Gentle Floaters)
+        const canvas = document.querySelector('#webgl-bg');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Warm colors for spheres
+        const colors = [0xFF9F43, 0x4BCFFA, 0x2ECC71, 0xFFCC80];
+        const spheres = [];
+
+        for(let i=0; i<6; i++) {
+            const geometry = new THREE.SphereGeometry(Math.random() * 0.5 + 0.5, 32, 32);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: colors[i % colors.length],
+                transparent: true,
+                opacity: 0.15
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            mesh.position.set(
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10
+            );
+            
+            scene.add(mesh);
+            spheres.push({
+                mesh: mesh,
+                speedX: (Math.random() - 0.5) * 0.005,
+                speedY: (Math.random() - 0.5) * 0.005
+            });
+        }
+
+        camera.position.z = 5;
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            
+            spheres.forEach(item => {
+                item.mesh.position.x += item.speedX;
+                item.mesh.position.y += item.speedY;
+                
+                // Simple boundary check
+                if(Math.abs(item.mesh.position.x) > 6) item.speedX *= -1;
+                if(Math.abs(item.mesh.position.y) > 6) item.speedY *= -1;
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 2. GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.bento-card').forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+        });
+
+        // 3. Language & Logic
         const translations = {
             ja: {
-                s1_title: `<span class="inline-block animate-float mr-2">🤔</span> コーチングって何？`,
-                s1_desc: `この資料では、<br><strong>「そもそもコーチングとは何か？」</strong><br><strong>「具体的にどのように進むのか？」</strong><br>について、わかりやすくお伝えします。`,
-                
-                s2_title: `<span class="inline-block animate-float mr-2">💡</span> コーチングって？`,
-                s2_main_title: `行動の力を引き出すコミュニケーション`,
-                s2_main_text: `本人特有の<span class="text-salmon font-bold">感情</span>や<span class="text-salmon font-bold">思考</span>の働きを<br class="hidden md:inline"><span class="font-bold border-b-4 border-salmon/30">行動の力</span>に変えることで、<br class="inline md:block"><span class="font-bold">目標達成</span>や<span class="font-bold">自己実現</span>を促す技術です。`,
-                s2_diff_title: `ー 他との違い ー`,
-                s2_c1_title: `コンサルティング`,
-                s2_c1_text: `専門知識に基づき<br class="md:hidden">「解決策や戦略」を提供`,
-                s2_c2_title: `メンタリング`,
-                s2_c2_text: `先輩の立場から<br class="md:hidden">「経験による助言」を提供`,
-                s2_c3_title: `カウンセリング`,
-                s2_c3_text: `心理的な不調に対し<br class="md:hidden">「癒しと回復」を提供`,
-
-                s3_title: `提供するのは<br class="md:hidden"><span class="text-salmon">Co-Activeコーチング</span>`,
-                s3_main_title: `「話すテーマ」は、<br class="md:hidden">内面への旅のきっかけに過ぎません`,
-                s3_main_text: `具体的な悩みや目標の裏側にある、<br class="hidden md:inline">あなた自身の<span class="font-bold border-b-4 border-salmon/30">本当の願いや可能性</span>を探求します。<br><span class="text-xs md:text-sm text-gray-400 mt-2 block">（※具体的な解決策のアドバイスは行いません）</span>`,
-                s3_f1_title: `クライアントへの信頼`,
-                s3_f1_text: `あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。`,
-                s3_f2_title: `あり方と行動`,
-                s3_f2_text: `目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。`,
-                s3_f3_title: `人生全体を扱う`,
-                s3_f3_text: `テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。`,
-                s3_link: `CTI JAPAN 公式サイト`,
-                trademark: `Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。`,
-
-                s4_title: `日下のCo-Activeの旅`,
-                s4_item1_title: `きっかけ（課題感）`,
-                s4_item1_text: `自分自身のリーダーシップや対人支援への課題感から、CTIの門を叩きました。`,
-                s4_item2_date: `2025 GW前`,
-                s4_item2_title: `基礎コース修了`,
-                s4_item2_text: `Co-Activeの土台となる考え方をインストール。`,
-                s4_item3_date: `2025 6〜9月`,
-                s4_item3_title: `応用コース修了`,
-                s4_item3_text: `4つのコースを通じて、コーチングの幅を広げました。`,
-                s4_item4_date: `2026 1月〜`,
-                s4_item4_title: `上級コース受講中`,
-                s4_item4_text: `プロフェッショナルとしての認定資格取得に向けて、実践と研鑽の日々。`,
-                s4_item5_title: `CPCC取得予定`,
-                s4_item5_text: `Certified Professional Co-Active Coachへ。`,
-
-                s5_title: `コーチングの具体的な流れ`,
-                s5_s1_title: `資料確認`,
-                s5_s1_desc: `まずはこの資料をチェック`,
-                s5_s1_status: `現在`,
-                s5_s2_title: `サンプルセッション`,
-                s5_s2_price: `0円 / 90分`,
-                s5_s2_action: `メール(<a href="mailto:kus4tai@gmail.com" class="text-salmon underline">kus4tai@gmail.com</a>)か<br>SNSで一声かけてください！`,
-                s5_s2_detail: `詳細を見る`,
-                s5_s3_title: `継続契約`,
-                s5_s3_desc: `継続意思があれば契約へ`,
-                s5_s3_note: `※詳細はサンプル時に`,
-                s5_phase_text: `ここまでが準備ステップ`,
-                s5_s4_title: `導入セッション`,
-                s5_s4_desc: `ここから開始`,
-                s5_s4_time: `90分`,
-                s5_s4_price: `2,000円`,
-                s5_s5_title: `通常セッション`,
-                s5_s5_desc: `月1回ペース`,
-                s5_s5_time: `60分`,
-                s5_s5_price: `2,000円<span class="text-[9px] md:text-xs font-normal text-gray-500" data-i18n="s5_per_session">/回</span>`,
-                s5_per_session: `/回`,
-                s5_footer: `まずはサンプルセッションでお会いできるのを<br>楽しみにしています！`,
-
-                // Sub Page
-                back_btn: `← 戻る`,
-                back_btn_large: `元の画面に戻る`,
-                sub_title: `サンプルセッションの前に<br>知ってほしいこと`,
-                sub_s1_title: `特殊な関わり`,
-                sub_s1_c1_title: `エンボディメント`,
-                sub_s1_c1_desc: `頭だけでなく、身体感覚や感情全体を使います。動いたり、その感覚を味わったりすることがあります。`,
-                sub_s1_c2_title: `反映`,
-                sub_s1_c2_desc: `あなたから見えているもの、聞こえているものを鏡のようにそのまま伝えます。`,
-                sub_s1_c3_title: `承認`,
-                sub_s1_c3_desc: `あなたの存在そのものや、行動の奥にある意図を言葉にして伝えます。`,
-                sub_s2_title: `対等なパートナーシップ`,
-                sub_s2_desc: `先生と生徒ではありません。<br>共に探求する対等なパートナーです。`,
-                sub_s3_title: `トピックの選び方`,
-                sub_s3_c1_title: `もやもやしていること`,
-                sub_s3_c1_desc: `言葉にならない違和感や、漠然とした悩みで構いません。そこから始めましょう。`,
-                sub_s3_c2_title: `人生の輪`,
-                sub_s3_c2_desc: `キャリア、お金、健康など、人生の各分野の満足度をチェックしてテーマを見つけます。`,
-                sub_s3_c2_link: `ツールを見る`
+                s1_title: "コーチングって何？",
+                s1_desc: "この資料では、<br><strong>「そもそもコーチングとは何か？」</strong><br><strong>「具体的にどのように進むのか？」</strong><br>について、わかりやすくお伝えします。",
+                s1_line_text: "コーチングに関する問い合わせや<br>サンプルセッションの相談はこちらから",
+                s2_title: "コーチングって？",
+                s2_main_title: "行動の力を引き出す<br>コミュニケーション",
+                s2_main_text: "本人特有の<span class='fr-text-fr-main fr-font-bold'>感情</span>や<span class='fr-text-fr-main fr-font-bold'>思考</span>の働きを<span class='marker-line'>行動の力</span>に変えることで、<br class='fr-hidden md:fr-inline'><span class='fr-text-fr-salmon'>目標達成</span>や<span class='fr-text-fr-salmon'>自己実現</span>を促す技術です。",
+                s2_c1_title: "コンサルティング",
+                s2_c1_text: "専門知識に基づき<br>「解決策や戦略」を提供",
+                s2_c2_title: "メンタリング",
+                s2_c2_text: "先輩の立場から<br>「経験による助言」を提供",
+                s2_c3_title: "カウンセリング",
+                s2_c3_text: "心理的な不調に対し<br>「癒しと回復」を提供",
+                s3_title: "提供するのは<br><span class='fr-text-fr-main'>Co-Active</span><br>コーチング",
+                s3_main_title: "「話すテーマ」は、きっかけに過ぎません",
+                s3_main_text: "具体的な悩みや目標の裏側にある、あなた自身の本当の願いや可能性を探求します。",
+                s3_f1_title: "クライアントへの信頼",
+                s3_f1_text: "あなたは「欠けたところのない存在」であり、自ら答えを見つける力を持っています。",
+                s3_f2_title: "あり方と行動",
+                s3_f2_text: "目標達成（行動）だけでなく、あなたがどう在りたいか（あり方）にも深く働きかけます。",
+                s3_f3_title: "人生全体を扱う",
+                s3_f3_text: "テーマはあなたの人生全体です。キャリア、人間関係、健康は全て繋がっています。",
+                s3_link: "CTI JAPAN 公式サイト",
+                s4_title: "日下のCo-Activeの旅",
+                s4_item1_title: "きっかけ（課題感）",
+                s4_item1_text: "自分自身のリーダーシップや対人支援への課題感から。",
+                s4_item2_date: "2025 GW",
+                s4_item2_title: "基礎コース修了",
+                s4_item2_text: "Co-Activeの土台となる考え方をインストール。",
+                s4_item3_date: "2025 6-9月",
+                s4_item3_title: "応用コース修了",
+                s4_item3_text: "4つのコースを通じて、コーチングの幅を広げました。",
+                s4_item4_title: "上級コース受講中",
+                s4_item4_text: "プロフェッショナルとしての認定資格取得に向けて。",
+                s5_title: "コーチングの具体的な流れ",
+                s5_s1_title: "資料確認",
+                s5_s1_desc: "まずはこの資料をチェック",
+                s5_s1_status: "現在",
+                s5_s2_title: "サンプルセッション",
+                s5_s2_price: "0円 / 90分",
+                s5_s2_action: "LINEで連絡する",
+                s5_s2_detail: "手順・詳細を見る",
+                s5_s3_title: "継続契約",
+                s5_s3_desc: "継続意思があれば契約へ",
+                s5_s3_note: "※詳細はサンプル時に",
+                s5_phase_text: "ここまでが準備ステップ",
+                s5_s4_title: "導入セッション",
+                s5_s4_desc: "ここから開始",
+                s5_s4_price: "2,000円",
+                s5_s4_time: "90分",
+                s5_s5_title: "通常セッション",
+                s5_s5_desc: "月1回ペース",
+                s5_s5_price: "2,000円",
+                s5_s5_time: "60分",
+                s5_per_session: "/回",
+                s5_footer: "まずはサンプルセッションでお会いできるのを<br>楽しみにしています！",
+                sub_title: "サンプルセッションの手順",
+                sub_step1_title: "LINE公式アカウントを追加",
+                sub_step1_btn: "友達追加する",
+                sub_step2_title: "日程調整",
+                sub_step2_desc: "追加時の自動メッセージに従って、候補日時をお送りいただくか、調整用カレンダーからご予約ください。",
+                sub_step3_title: "セッション実施",
+                sub_step3_point: "当日はZoom等のオンラインツールを使用します。静かな環境をご用意ください。",
+                sub_step3_content: "「最近もやもやしていること」や「人生の輪で見つけたテーマ」などをトピックとして扱いながら、対話を進めていきます。",
+                back_btn: "← 戻る",
+                back_btn_large: "元の画面に戻る",
+                trademark: "Co-Active Coaching®︎は、株式会社ウエイクアップ CTI JAPAN の登録商標です。"
             },
             en: {
-                s1_title: `<span class="inline-block animate-float mr-2">🤔</span> What is Coaching?`,
-                s1_desc: `In this presentation, I'll explain:<br><strong>"What exactly is coaching?"</strong><br><strong>"How does the process work?"</strong><br>in a simple and clear way.`,
-                
-                s2_title: `<span class="inline-block animate-float mr-2">💡</span> About Coaching`,
-                s2_main_title: `Communication that unlocks action`,
-                s2_main_text: `A technique that transforms your unique <span class="text-salmon font-bold">emotions</span> and <span class="text-salmon font-bold">thoughts</span> into <br class="hidden md:inline"><span class="font-bold border-b-4 border-salmon/30">power for action</span>,<br class="inline md:block">promoting <span class="font-bold">goal achievement</span> and <span class="font-bold">self-realization</span>.`,
-                s2_diff_title: `ー Differences ー`,
-                s2_c1_title: `Consulting`,
-                s2_c1_text: `Provides "solutions & strategies"<br class="md:hidden">based on expertise.`,
-                s2_c2_title: `Mentoring`,
-                s2_c2_text: `Provides "advice from experience"<br class="md:hidden">as a senior.`,
-                s2_c3_title: `Counseling`,
-                s2_c3_text: `Provides "healing & recovery"<br class="md:hidden">for mental health issues.`,
-
-                s3_title: `I provide<br class="md:hidden"><span class="text-salmon">Co-Active Coaching</span>`,
-                s3_main_title: `The "Topic" is just an entry point<br class="md:hidden">to your inner journey.`,
-                s3_main_text: `Behind specific worries or goals,<br class="hidden md:inline">we explore your <span class="font-bold border-b-4 border-salmon/30">true desires and potential</span>.<br><span class="text-xs md:text-sm text-gray-400 mt-2 block">(*I do not provide specific advice for solutions)</span>`,
-                s3_f1_title: `Naturally Creative`,
-                s3_f1_text: `You are "Naturally Creative, Resourceful, and Whole." I believe you have the answers within.`,
-                s3_f2_title: `Being & Doing`,
-                s3_f2_text: `We work not only on achieving goals (Doing) but also deeply on who you want to be (Being).`,
-                s3_f3_title: `Whole Life`,
-                s3_f3_text: `The theme is your whole life. Career, relationships, and health are all interconnected.`,
-                s3_link: `CTI JAPAN Website`,
-                trademark: `Co-Active Coaching®︎ is a registered trademark of Wake Up Co., Ltd. CTI JAPAN.`,
-
-                s4_title: `Kusaka's Co-Active Journey`,
-                s4_item1_title: `The Trigger`,
-                s4_item1_text: `I knocked on CTI's door due to challenges with my own leadership and supporting others.`,
-                s4_item2_date: `Before GW 2025`,
-                s4_item2_title: `Fundamentals`,
-                s4_item2_text: `Installed the foundational concepts of Co-Active.`,
-                s4_item3_date: `Jun-Sep 2025`,
-                s4_item3_title: `Intermediate`,
-                s4_item3_text: `Expanded my coaching range through 4 courses.`,
-                s4_item4_date: `Jan 2026 ~`,
-                s4_item4_title: `Advanced Course`,
-                s4_item4_text: `Currently in days of practice and study towards professional certification.`,
-                s4_item5_title: `CPCC (Future)`,
-                s4_item5_text: `Aiming for Certified Professional Co-Active Coach.`,
-
-                s5_title: `Specific Process Flow`,
-                s5_s1_title: `Read Material`,
-                s5_s1_desc: `Check this doc first`,
-                s5_s1_status: `Now`,
-                s5_s2_title: `Sample Session`,
-                s5_s2_price: `Free / 90min`,
-                s5_s2_action: `Email (<a href="mailto:kus4tai@gmail.com" class="text-salmon underline">kus4tai@gmail.com</a>)<br>or DM me on SNS!`,
-                s5_s2_detail: `See Details`,
-                s5_s3_title: `Agreement`,
-                s5_s3_desc: `Contract if you decide to continue`,
-                s5_s3_note: `*Details at sample session`,
-                s5_phase_text: `Preparation Phase`,
-                s5_s4_title: `Discovery`,
-                s5_s4_desc: `Coaching starts here`,
-                s5_s4_time: `90min`,
-                s5_s4_price: `2,000 JPY`,
-                s5_s5_title: `Ongoing`,
-                s5_s5_desc: `Once a month`,
-                s5_s5_time: `60min`,
-                s5_s5_price: `2,000 JPY<span class="text-[9px] md:text-xs font-normal text-gray-500" data-i18n="s5_per_session">/session</span>`,
-                s5_per_session: `/session`,
-                s5_footer: `I look forward to meeting you<br>at the sample session!`,
-
-                // Sub Page
-                back_btn: `← Back`,
-                back_btn_large: `Back to Main`,
-                sub_title: `What to know before<br>Sample Session`,
-                sub_s1_title: `Unique Approach`,
-                sub_s1_c1_title: `Embodiment`,
-                sub_s1_c1_desc: `We use not just the head, but the whole body sensation and emotion. We may move or savor that sensation.`,
-                sub_s1_c2_title: `Mirroring`,
-                sub_s1_c2_desc: `I reflect back what I see and hear from you like a mirror.`,
-                sub_s1_c3_title: `Acknowledgment`,
-                sub_s1_c3_desc: `I verbally acknowledge your very existence and the intention behind your actions.`,
-                sub_s2_title: `Equal Partnership`,
-                sub_s2_desc: `Not teacher and student.<br>We are equal partners exploring together.`,
-                sub_s3_title: `Choosing a Topic`,
-                sub_s3_c1_title: `Feeling "Moyamoya"`,
-                sub_s3_c1_desc: `Vague discomfort or undefined worries are fine. Let's start there.`,
-                sub_s3_c2_title: `Wheel of Life`,
-                sub_s3_c2_desc: `Check satisfaction in areas like career, money, health to find a theme.`,
-                sub_s3_c2_link: `View Tool`
+                s1_title: "What is Coaching?",
+                s1_desc: "In this presentation, I'll explain:<br><strong>'What exactly is coaching?'</strong><br><strong>'How does the process work?'</strong>",
+                s1_line_text: "Contact via LINE for inquiries<br>or sample sessions",
+                s2_title: "What is Coaching?",
+                s2_main_title: "Communication unlocking<br>power of action",
+                s2_main_text: "A technique that transforms your unique <span class='fr-text-fr-main fr-font-bold'>emotions</span> and <span class='fr-text-fr-main fr-font-bold'>thoughts</span> into <span class='marker-line'>power for action</span>.",
+                s2_c1_title: "Consulting",
+                s2_c1_text: "Provides solutions & strategies based on expertise",
+                s2_c2_title: "Mentoring",
+                s2_c2_text: "Provides advice from experience as a senior",
+                s2_c3_title: "Counseling",
+                s2_c3_text: "Provides healing & recovery for mental health",
+                s3_title: "I Provide<br><span class='fr-text-fr-main'>Co-Active</span><br>Coaching",
+                s3_main_title: "The Topic is just an entry point",
+                s3_main_text: "We explore your true desires and potential lying behind specific issues.",
+                s3_f1_title: "Naturally Creative",
+                s3_f1_text: "I believe you have the answers within.",
+                s3_f2_title: "Being & Doing",
+                s3_f2_text: "We work on who you want to be (Being) as well as goals (Doing).",
+                s3_f3_title: "Whole Life",
+                s3_f3_text: "The theme is your whole life. Everything is interconnected.",
+                s3_link: "CTI JAPAN Website",
+                s4_title: "My Co-Active Journey",
+                s4_item1_title: "The Trigger",
+                s4_item1_text: "Challenges with my own leadership led me here.",
+                s4_item2_date: "2025 Pre-GW",
+                s4_item2_title: "Fundamentals",
+                s4_item2_text: "Installed foundational concepts.",
+                s4_item3_date: "2025 Jun-Sep",
+                s4_item3_title: "Intermediate",
+                s4_item3_text: "Expanded coaching range.",
+                s4_item4_title: "Advanced Course",
+                s4_item4_text: "Training for professional certification.",
+                s5_title: "Process Flow",
+                s5_s1_title: "Read Doc",
+                s5_s1_desc: "Check this first",
+                s5_s1_status: "CURRENT",
+                s5_s2_title: "Sample Session",
+                s5_s2_price: "FREE / 90min",
+                s5_s2_action: "Contact via LINE",
+                s5_s2_detail: "See Steps",
+                s5_s3_title: "Agreement",
+                s5_s3_desc: "Contract if continuing",
+                s5_s3_note: "*Details at sample session",
+                s5_phase_text: "Preparation Phase",
+                s5_s4_title: "Discovery",
+                s5_s4_desc: "Coaching starts",
+                s5_s4_price: "2,000 JPY",
+                s5_s4_time: "90min",
+                s5_s5_title: "Ongoing",
+                s5_s5_desc: "Once a month",
+                s5_s5_price: "2,000 JPY",
+                s5_s5_time: "60min",
+                s5_per_session: "/session",
+                s5_footer: "I look forward to meeting you<br>at the sample session!",
+                sub_title: "Sample Session Steps",
+                sub_step1_title: "Add LINE Official Account",
+                sub_step1_btn: "Add Friend",
+                sub_step2_title: "Schedule Adjustment",
+                sub_step2_desc: "Send your preferred dates or book via the calendar sent automatically.",
+                sub_step3_title: "Session Day",
+                sub_step3_point: "We use Zoom. Please prepare a quiet environment.",
+                sub_step3_content: "We'll dialogue based on topics like 'recent worries' or 'Wheel of Life'.",
+                back_btn: "← Back",
+                back_btn_large: "Back to Main",
+                trademark: "Co-Active Coaching®︎ is a registered trademark of Wake Up Co., Ltd. CTI JAPAN."
             }
         };
 
-        let currentLanguage = 'ja';
+        let currentLang = 'ja';
 
+        function updateLang() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(t[key]) el.innerHTML = t[key];
+            });
+            document.getElementById('current-lang').className = currentLang === 'ja' ? 'fr-text-fr-text' : 'fr-text-gray-300';
+            document.getElementById('target-lang').className = currentLang === 'en' ? 'fr-text-fr-text' : 'fr-text-gray-300';
+        }
+
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'ja' ? 'en' : 'ja';
+            updateLang();
+        });
+
+        // Sub Page Logic
+        function showSubPage() {
+            document.getElementById('sub-page-prep').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function hideSubPage() {
+            document.getElementById('sub-page-prep').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Scroll Logic & DOM Init
         document.addEventListener('DOMContentLoaded', () => {
             const mainScroll = document.getElementById('main-scroll');
             const slides = document.querySelectorAll('.slide-section');
             const dots = document.querySelectorAll('.nav-dot');
             const progressBar = document.getElementById('progress-bar');
-            const langToggle = document.getElementById('lang-toggle');
             
-            // 言語切り替えボタン
-            langToggle.addEventListener('click', toggleLanguage);
-
-            function toggleLanguage() {
-                currentLanguage = currentLanguage === 'ja' ? 'en' : 'ja';
-                updateLanguageUI();
-                updateContent();
-            }
-
-            function updateLanguageUI() {
-                const currentSpan = document.getElementById('current-lang');
-                const targetSpan = document.getElementById('target-lang');
-                if (currentLanguage === 'ja') {
-                    currentSpan.className = 'text-slate-800';
-                    currentSpan.innerText = 'JP';
-                    targetSpan.className = 'text-slate-400';
-                    targetSpan.innerText = 'EN';
-                } else {
-                    currentSpan.className = 'text-slate-400';
-                    currentSpan.innerText = 'JP';
-                    targetSpan.className = 'text-slate-800';
-                    targetSpan.innerText = 'EN';
-                }
-            }
-
-            function updateContent() {
-                const elements = document.querySelectorAll('[data-i18n]');
-                elements.forEach(el => {
-                    const key = el.getAttribute('data-i18n');
-                    if (translations[currentLanguage][key]) {
-                        el.innerHTML = translations[currentLanguage][key];
-                    }
-                });
-            }
-
-            // --- Scroll Logic ---
-            const observerOptions = {
-                root: mainScroll,
-                threshold: 0.5 
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const index = Array.from(slides).indexOf(entry.target);
-                        updateNavigation(index);
-                    }
-                });
-            }, observerOptions);
-
-            slides.forEach(slide => observer.observe(slide));
+            updateLang();
 
             function updateNavigation(index) {
                 dots.forEach((dot, i) => {
                     if (i === index) {
                         dot.classList.remove('bg-gray-400');
-                        dot.classList.add('bg-salmon', 'scale-125');
+                        dot.classList.add('bg-fr-salmon', 'scale-125');
                     } else {
                         dot.classList.add('bg-gray-400');
-                        dot.classList.remove('bg-salmon', 'scale-125');
+                        dot.classList.remove('bg-fr-salmon', 'scale-125');
                     }
                 });
-
-                const progress = (index / (slides.length - 1)) * 100;
-                progressBar.style.width = `${progress}%`;
+                if(progressBar) {
+                     const progress = (index / (slides.length - 1)) * 100;
+                     progressBar.style.width = `${progress}%`;
+                }
             }
 
             window.scrollToSlide = (index) => {
@@ -671,36 +839,30 @@
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
             };
+
+            const observerOptions = {
+                root: null, // Viewport
+                threshold: 0.2
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = Array.from(slides).indexOf(entry.target);
+                        updateNavigation(index);
+                    }
+                });
+            }, observerOptions);
+
+            slides.forEach(slide => observer.observe(slide));
             
             updateNavigation(0);
         });
+        
+        window.showSubPage = showSubPage;
+        window.hideSubPage = hideSubPage;
 
-        // サブページ切り替え処理
-        function showSubPage() {
-            const subPage = document.getElementById('sub-page-prep');
-            const mainNav = document.getElementById('main-nav');
-            const backBtn = document.getElementById('back-button');
-            const langBtn = document.getElementById('lang-toggle');
-            
-            subPage.classList.add('active');
-            mainNav.style.opacity = '0'; // ナビゲーションを隠す
-            mainNav.style.pointerEvents = 'none';
-            backBtn.classList.remove('hidden');
-            langBtn.style.display = 'none'; // 言語切り替えも一旦隠す（ヘッダーと被るため）
-        }
-
-        function hideSubPage() {
-            const subPage = document.getElementById('sub-page-prep');
-            const mainNav = document.getElementById('main-nav');
-            const backBtn = document.getElementById('back-button');
-            const langBtn = document.getElementById('lang-toggle');
-
-            subPage.classList.remove('active');
-            mainNav.style.opacity = '1';
-            mainNav.style.pointerEvents = 'auto';
-            backBtn.classList.add('hidden');
-            langBtn.style.display = 'block';
-        }
     </script>
+</div>
 </body>
 </html>
