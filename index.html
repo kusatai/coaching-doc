@@ -168,7 +168,6 @@
 
     <!-- ヘッダー -->
     <header class="fr-fixed fr-top-0 fr-left-0 fr-w-full fr-z-50 fr-p-4 fr-flex fr-justify-between fr-items-center">
-        <!-- 言語切り替え -->
         <button id="lang-toggle" class="fr-bg-white/90 fr-backdrop-blur fr-shadow-sm fr-border fr-border-gray-200 fr-rounded-full fr-px-4 fr-py-1.5 fr-text-xs fr-font-bold fr-text-fr-text hover:fr-bg-gray-50 fr-transition-colors">
             <span id="current-lang">JP</span> <span class="fr-text-gray-300 fr-mx-1">|</span> <span id="target-lang" class="fr-text-gray-400">EN</span>
         </button>
@@ -205,7 +204,6 @@
                 </div>
 
                 <div class="soft-card fr-p-6 fr-inline-flex fr-flex-col fr-items-center fr-justify-center fr-bg-white/80">
-                    <!-- QR Code Container -->
                     <div class="fr-bg-white fr-p-2 fr-rounded-xl fr-mb-3 fr-shadow-inner fr-w-36 fr-h-36 md:fr-w-44 md:fr-h-44 fr-flex fr-items-center fr-justify-center fr-overflow-hidden">
                         <img src="qr_code_line.png" alt="LINE QR" class="fr-max-w-full fr-max-h-full fr-object-contain" onerror="this.style.display='none';this.parentElement.innerText='QR CODE'">
                     </div>
@@ -295,7 +293,6 @@
                     <span class="fr-text-2xl md:fr-text-4xl fr-font-rounded fr-font-bold fr-text-fr-text fr-border-b-4 fr-border-fr-salmon/30 fr-pb-2" data-i18n="s3_title">コーチングって？</span>
                 </h2>
 
-                <!-- Coaching Card -->
                 <div class="soft-card fr-p-8 md:fr-p-12 fr-text-center fr-mb-24 md:fr-mb-32 fr-max-w-3xl fr-mx-auto">
                     <div class="fr-w-16 fr-h-16 fr-bg-fr-main/10 fr-text-fr-main fr-rounded-full fr-flex fr-items-center fr-justify-center fr-text-3xl fr-mb-6 fr-mx-auto">🔥</div>
                     <h3 class="fr-text-xl md:fr-text-3xl fr-font-rounded fr-font-bold fr-text-fr-text fr-mb-6" data-i18n="s3_main_title">行動の力を引き出す<br>コミュニケーション</h3>
@@ -304,7 +301,7 @@
                     </p>
                 </div>
 
-                <!-- Difference Subtitle with larger spacing -->
+                <!-- Difference Subtitle -->
                 <div class="fr-mt-12 fr-mb-12 fr-text-center">
                     <p class="fr-text-gray-400 fr-font-black fr-text-xs fr-tracking-[0.3em] fr-mb-2 uppercase" data-i18n="s3_diff_title">支援のスタイルの違い</p>
                     <div class="fr-w-12 fr-h-1 fr-bg-fr-main/20 fr-mx-auto fr-rounded-full"></div>
@@ -543,8 +540,9 @@
             </p>
             <div class="soft-card fr-p-6 fr-bg-white">
                 <h3 class="fr-font-bold fr-text-fr-text fr-mb-4" data-i18n="intro_img_title">リソースの全体像</h3>
-                <div class="fr-w-full fr-bg-gray-100 fr-rounded-xl fr-flex fr-items-center fr-justify-center fr-border-2 fr-border-dashed fr-border-gray-300 fr-overflow-hidden">
-                    <img src="resources_map.png" alt="リソース全体像" class="fr-w-full fr-h-auto" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'fr-text-gray-400 fr-font-bold\'>[Resources]</span>'">
+                <div class="fr-w-full fr-min-h-[200px] fr-bg-gray-100 fr-rounded-xl fr-flex fr-items-center fr-justify-center fr-border-2 fr-border-dashed fr-border-gray-300 fr-overflow-hidden">
+                    <img src="resources_map.png" alt="リソース全体像" class="fr-w-full fr-h-auto fr-block" style="min-height: 50px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <span class="fr-text-gray-400 fr-font-bold fr-hidden">画像が見つかりません (resources_map.png)</span>
                 </div>
             </div>
         </div>
@@ -577,7 +575,7 @@
                 s3_c3_title: "メンター",
                 s3_c3_text: "自らの「経験」から助言し、成長を導く",
                 s3_c4_title: "カウンセラー",
-                s3_c4_text: "過去の傷や不調の「癒し」をサポートする",
+                s3_c4_text: "過去の傷や心理的な不調の「癒し」をサポートする",
                 s4_title: "提供するのはCo-Activeコーチング",
                 s4_main_title: "「話すテーマ」は、<br>きっかけに過ぎません",
                 s4_main_text: "具体的な悩みや目標の裏側にある、あなた自身の本当の願いや可能性を探求します。",
