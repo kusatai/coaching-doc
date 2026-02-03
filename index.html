@@ -132,6 +132,8 @@
             border-radius: 0.75rem;
             text-align: center;
             transition: background-color 0.2s;
+            display: inline-block;
+            width: 100%;
         }
         .btn-secondary:hover {
             background-color: #e2e8f0;
@@ -196,6 +198,7 @@
 
     <!-- ヘッダー -->
     <header class="fr-fixed fr-top-0 fr-left-0 fr-w-full fr-z-50 fr-p-4 fr-flex fr-justify-between fr-items-center">
+        <!-- 言語切り替え -->
         <button id="lang-toggle" class="fr-bg-white/90 fr-backdrop-blur fr-shadow-sm fr-border fr-border-gray-200 fr-rounded-full fr-px-4 fr-py-1.5 fr-text-xs fr-font-bold fr-text-fr-text hover:fr-bg-gray-50 fr-transition-colors">
             <span id="current-lang">JP</span> <span class="fr-text-gray-300 fr-mx-1">|</span> <span id="target-lang" class="fr-text-gray-400">EN</span>
         </button>
@@ -244,23 +247,23 @@
             <div class="fr-absolute fr-bottom-8 fr-left-1/2 fr-transform fr--translate-x-1/2 fr-text-gray-300 fr-animate-bounce">⌄</div>
         </section>
 
-        <!-- SECTION 2: PROFILE & JOURNEY -->
-        <section id="section-2" class="fr-min-h-screen fr-flex flex-col fr-items-center fr-justify-center fr-bg-white/50">
-            <div class="fr-container fr-mx-auto fr-px-4 md:fr-px-6 fr-max-w-6xl">
+        <!-- SECTION 2: PROFILE & JOURNEY (Fixed Overflow & Content Update) -->
+        <section id="section-2" class="fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-center fr-bg-white/50">
+            <div class="fr-container fr-mx-auto fr-px-4 md:fr-px-6 fr-max-w-6xl fr-w-full">
                 <h2 class="fr-text-2xl md:fr-text-4xl fr-font-black fr-text-center fr-mb-12 fr-text-fr-text">
                     <span class="fr-inline-block fr-animate-float fr-mr-2">🌱</span> <span data-i18n="s2_title">自己紹介</span>
                 </h2>
 
-                <div class="fr-grid fr-grid-cols-1 md:fr-grid-cols-12 fr-gap-12">
+                <div class="fr-grid fr-grid-cols-1 md:fr-grid-cols-12 fr-gap-8 md:fr-gap-12 fr-w-full">
                     <!-- Profile Column -->
-                    <div class="fr-col-span-12 md:fr-col-span-5 fr-flex fr-flex-col fr-items-center md:fr-items-start">
-                        <div class="fr-w-32 fr-h-32 md:fr-w-48 md:fr-h-48 fr-rounded-full fr-bg-white fr-p-1 fr-shadow-md fr-mb-6 fr-overflow-hidden fr-flex fr-items-center fr-justify-center">
+                    <div class="fr-col-span-12 md:fr-col-span-5 fr-flex fr-flex-col fr-items-center md:fr-items-start fr-max-w-full">
+                        <div class="fr-w-32 fr-h-32 md:fr-w-48 md:fr-h-48 fr-rounded-full fr-bg-white fr-p-1 fr-shadow-md fr-mb-6 fr-overflow-hidden fr-flex fr-items-center fr-justify-center fr-shrink-0">
                              <img src="sambnail.png" alt="日下" class="fr-w-full fr-h-full fr-object-cover fr-rounded-full" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'fr-text-gray-400 fr-font-bold fr-text-xs\'>[Face Image]</span>'">
                         </div>
-                        <div class="fr-text-center md:fr-text-left">
+                        <div class="fr-text-center md:fr-text-left fr-w-full">
                             <h3 class="fr-text-xl md:fr-text-2xl fr-font-bold fr-text-fr-text fr-mb-2">日下 (Kusaka)</h3>
                             <p class="fr-text-xs font-bold text-fr-main fr-mb-4" data-i18n="s2_profile_age">20代 / アジャイルコーチ</p>
-                            <p class="fr-text-sm md:fr-text-base fr-text-gray-600 fr-leading-relaxed fr-mb-6" data-i18n="s2_profile_bio">
+                            <p class="fr-text-sm md:fr-text-base fr-text-gray-600 fr-leading-relaxed fr-mb-6 fr-break-words" data-i18n="s2_profile_bio">
                                 IT企業でエンジニア・ScMを経験し、現在は金融IT系企業でアジャイルコーチとして働きながら社内外でCo-Activeコーチングを実践しています。「人の可能性を信じる」関わりに魅了され、プロコーチへの道を進んでいます。
                             </p>
                             <div class="fr-flex fr-flex-wrap fr-justify-center md:fr-justify-start fr-gap-2">
@@ -271,29 +274,32 @@
                         </div>
                     </div>
 
-                    <!-- Timeline Column -->
-                    <div class="fr-col-span-12 md:fr-col-span-7 fr-relative fr-pl-4">
-                        <div class="fr-absolute fr-left-6 fr-top-2 fr-bottom-2 fr-w-1 fr-bg-gradient-to-b fr-from-gray-200 fr-via-fr-main/30 fr-to-gray-100 fr-rounded-full"></div>
-                        <div class="fr-space-y-8">
-                            <div class="fr-relative fr-pl-12">
-                                <span class="fr-absolute fr-left-[-2px] fr-top-1.5 fr-w-5 fr-h-5 fr-rounded-full fr-bg-fr-green fr-border-4 fr-border-white fr-shadow-sm fr-z-10"></span>
-                                <div class="soft-card fr-p-5 fr-relative hover:fr-bg-white fr-border-l-4 fr-border-fr-green">
+                    <!-- Timeline Column (Improved Padding for Mobile) -->
+                    <div class="fr-col-span-12 md:fr-col-span-7 fr-relative fr-pl-6 md:fr-pl-4 fr-w-full">
+                        <div class="fr-absolute fr-left-2 md:fr-left-6 fr-top-2 fr-bottom-2 fr-w-1 fr-bg-gradient-to-b fr-from-gray-200 fr-via-fr-main/30 fr-to-gray-100 fr-rounded-full"></div>
+                        <div class="fr-space-y-6 fr-w-full">
+                            <!-- Item 1 -->
+                            <div class="fr-relative fr-pl-8 md:fr-pl-12 fr-w-full">
+                                <span class="fr-absolute fr-left-[-22px] md:fr-left-[-2px] fr-top-1.5 fr-w-5 fr-h-5 fr-rounded-full fr-bg-fr-green fr-border-4 fr-border-white fr-shadow-sm fr-z-10"></span>
+                                <div class="soft-card fr-p-4 md:fr-p-5 fr-relative hover:fr-bg-white fr-border-l-4 fr-border-fr-green fr-w-full">
                                     <span class="fr-bg-fr-green/10 fr-text-fr-green fr-text-[10px] fr-font-black fr-px-2 fr-py-0.5 fr-rounded-full fr-mb-1 fr-inline-block">2025 GW前</span>
                                     <h3 class="fr-font-bold fr-text-sm md:fr-text-base fr-mb-1 fr-text-fr-text" data-i18n="s2_item1_title">コーチングの学びを開始</h3>
                                     <p class="fr-text-xs fr-text-gray-500" data-i18n="s2_item1_text">基礎コース修了。対人支援への課題感から、CTIの世界へ。</p>
                                 </div>
                             </div>
-                            <div class="fr-relative fr-pl-12">
-                                <span class="fr-absolute fr-left-[-2px] fr-top-1.5 fr-w-5 fr-h-5 fr-rounded-full fr-bg-fr-green fr-border-4 fr-border-white fr-shadow-sm fr-z-10"></span>
-                                <div class="soft-card fr-p-5 fr-relative hover:fr-bg-white fr-border-l-4 fr-border-fr-green">
+                            <!-- Item 2 -->
+                            <div class="fr-relative fr-pl-8 md:fr-pl-12 fr-w-full">
+                                <span class="fr-absolute fr-left-[-22px] md:fr-left-[-2px] fr-top-1.5 fr-w-5 fr-h-5 fr-rounded-full fr-bg-fr-green fr-border-4 fr-border-white fr-shadow-sm fr-z-10"></span>
+                                <div class="soft-card fr-p-4 md:fr-p-5 fr-relative hover:fr-bg-white fr-border-l-4 fr-border-fr-green fr-w-full">
                                     <span class="fr-bg-fr-green/10 fr-text-fr-green fr-text-[10px] fr-font-black fr-px-2 fr-py-0.5 fr-rounded-full fr-mb-1 fr-inline-block">2025 9月</span>
                                     <h3 class="fr-font-bold fr-text-sm md:fr-text-base fr-mb-1 fr-text-fr-text" data-i18n="s2_item2_title">応用コース修了</h3>
                                     <p class="fr-text-xs fr-text-gray-500">Co-Activeモデルの深さと可能性を体感し、実践を加速。</p>
                                 </div>
                             </div>
-                            <div class="fr-relative fr-pl-12">
-                                <span class="fr-absolute fr-left-[-6px] fr-top-1 fr-w-7 fr-h-7 fr-rounded-full fr-bg-fr-main fr-border-4 fr-border-white fr-shadow-md fr-z-20 fr-animate-pulse"></span>
-                                <div class="soft-card fr-p-5 fr-relative fr-border-2 fr-border-fr-main fr-bg-white fr-shadow-lg fr-transform fr-scale-[1.02]">
+                            <!-- Item 3 (NOW) -->
+                            <div class="fr-relative fr-pl-8 md:fr-pl-12 fr-w-full">
+                                <span class="fr-absolute fr-left-[-26px] md:fr-left-[-6px] fr-top-1 fr-w-7 fr-h-7 fr-rounded-full fr-bg-fr-main fr-border-4 fr-border-white fr-shadow-md fr-z-20 fr-animate-pulse"></span>
+                                <div class="soft-card fr-p-4 md:fr-p-5 fr-relative fr-border-2 fr-border-fr-main fr-bg-white fr-shadow-lg fr-transform fr-scale-[1.01] fr-w-full">
                                     <div class="fr-flex fr-items-center fr-gap-2 fr-mb-1">
                                         <span class="fr-bg-fr-main fr-text-white fr-text-[10px] fr-font-black fr-px-2 fr-py-0.5 fr-rounded-full">NOW / 2026</span>
                                     </div>
@@ -301,9 +307,10 @@
                                     <p class="fr-text-xs fr-text-gray-600" data-i18n="s2_item4_text">プロ認定に向けて、社内外のクライアントへのセッションを重ね、実践を積んでいます。</p>
                                 </div>
                             </div>
-                            <div class="fr-relative fr-pl-12 fr-opacity-60">
-                                <span class="fr-absolute fr-left-[-2px] fr-top-1.5 fr-w-5 fr-h-5 fr-rounded-full fr-bg-gray-300 fr-border-4 fr-border-white fr-z-10"></span>
-                                <div class="soft-card fr-p-5 fr-relative fr-bg-transparent fr-border-2 fr-border-dashed fr-border-gray-300 fr-shadow-none">
+                            <!-- Item 4 (FUTURE) -->
+                            <div class="fr-relative fr-pl-8 md:fr-pl-12 fr-w-full fr-opacity-60">
+                                <span class="fr-absolute fr-left-[-22px] md:fr-left-[-2px] fr-top-1.5 fr-w-5 fr-h-5 fr-rounded-full fr-bg-gray-300 fr-border-4 fr-border-white fr-z-10"></span>
+                                <div class="soft-card fr-p-4 md:fr-p-5 fr-relative fr-bg-transparent fr-border-2 fr-border-dashed fr-border-gray-300 fr-shadow-none fr-w-full">
                                     <span class="fr-text-[10px] fr-text-gray-400 fr-font-black fr-tracking-wider">COMING SOON</span>
                                     <h3 class="fr-font-bold fr-text-sm md:fr-text-base fr-mb-1 fr-text-gray-400" data-i18n="s2_item5_title">CPCC 取得予定</h3>
                                 </div>
@@ -315,13 +322,13 @@
         </section>
 
         <!-- SECTION 3: DEFINITION -->
-        <section id="section-3" class="fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-center fr-px-4">
+        <section id="section-3" class="fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-center fr-pt-24 fr-pb-48 md:fr-pt-32 md:fr-pb-64 fr-px-4">
             <div class="fr-container fr-mx-auto fr-max-w-6xl">
                 <h2 class="fr-text-center fr-mb-12">
                     <span class="fr-text-2xl md:fr-text-4xl fr-font-rounded fr-font-bold fr-text-fr-text fr-border-b-4 fr-border-fr-salmon/30 fr-pb-2" data-i18n="s3_title">コーチングって？</span>
                 </h2>
 
-                <div class="soft-card fr-p-8 md:fr-p-12 fr-text-center fr-mb-24 md:fr-mb-32 fr-max-w-3xl fr-mx-auto">
+                <div class="soft-card fr-p-8 md:fr-p-12 fr-text-center fr-mb-16 fr-max-w-3xl fr-mx-auto">
                     <div class="fr-w-16 fr-h-16 fr-bg-fr-main/10 fr-text-fr-main fr-rounded-full fr-flex fr-items-center fr-justify-center fr-text-3xl fr-mb-6 fr-mx-auto">🔥</div>
                     <h3 class="fr-text-xl md:fr-text-3xl fr-font-rounded fr-font-bold fr-text-fr-text fr-mb-6" data-i18n="s3_main_title">行動の力を引き出す<br>コミュニケーション</h3>
                     <p class="fr-text-base md:fr-text-lg fr-leading-relaxed fr-text-fr-text" data-i18n="s3_main_text">
@@ -329,25 +336,23 @@
                     </p>
                 </div>
 
-                <div class="fr-mt-12 fr-mb-12 fr-text-center">
-                    <p class="fr-text-gray-400 fr-font-black fr-text-xs fr-tracking-[0.3em] fr-mb-2 uppercase" data-i18n="s3_diff_title">支援のスタイルの違い</p>
-                    <div class="fr-w-12 fr-h-1 fr-bg-fr-main/20 fr-mx-auto fr-rounded-full"></div>
-                </div>
+                <p class="fr-text-center fr-text-gray-400 font-bold mb-8 text-sm tracking-widest" data-i18n="s3_diff_title">支援のスタイルの違い</p>
 
-                <div class="fr-grid fr-grid-cols-1 md:fr-grid-cols-3 fr-gap-8 md:fr-gap-10">
-                    <div class="soft-card fr-p-8 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white transition-all">
-                        <div class="fr-text-4xl fr-mb-4">👔</div>
-                        <h4 class="fr-text-base fr-font-bold fr-text-fr-text fr-mb-3" data-i18n="s3_c2_title">コンサルティング</h4>
+                <!-- Comparison Grid -->
+                <div class="fr-grid fr-grid-cols-1 md:fr-grid-cols-3 fr-gap-6 md:fr-gap-8">
+                    <div class="soft-card fr-p-6 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white">
+                        <div class="fr-text-3xl fr-mb-3">👔</div>
+                        <h4 class="fr-text-base fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s3_c2_title">コンサルティング</h4>
                         <p class="fr-text-xs fr-text-gray-500 fr-leading-relaxed" data-i18n="s3_c2_text">専門知識で「解決策」や「戦略」を教える</p>
                     </div>
-                    <div class="soft-card fr-p-8 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white transition-all">
-                        <div class="fr-text-4xl fr-mb-4">🤝</div>
-                        <h4 class="fr-text-base fr-font-bold fr-text-fr-text fr-mb-3" data-i18n="s3_c3_title">メンター</h4>
+                    <div class="soft-card fr-p-6 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white">
+                        <div class="fr-text-3xl fr-mb-3">🤝</div>
+                        <h4 class="fr-text-base fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s3_c3_title">メンター</h4>
                         <p class="fr-text-xs fr-text-gray-500 fr-leading-relaxed" data-i18n="s3_c3_text">自らの「経験」から助言し、成長を導く</p>
                     </div>
-                    <div class="soft-card fr-p-8 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white transition-all">
-                        <div class="fr-text-4xl fr-mb-4">🩹</div>
-                        <h4 class="fr-text-base fr-font-bold fr-text-fr-text fr-mb-3" data-i18n="s3_c4_title">カウンセラー</h4>
+                    <div class="soft-card fr-p-6 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white">
+                        <div class="fr-text-3xl fr-mb-3">🩹</div>
+                        <h4 class="fr-text-base fr-font-bold fr-text-fr-text fr-mb-2" data-i18n="s3_c4_title">カウンセラー</h4>
                         <p class="fr-text-xs fr-text-gray-500 fr-leading-relaxed" data-i18n="s3_c4_text">過去の傷や心理的な不調の「癒し」をサポートする</p>
                     </div>
                 </div>
@@ -382,6 +387,7 @@
                     </div>
                 </div>
                 
+                <!-- CTI Info -->
                 <div class="fr-mt-16 fr-text-center">
                     <a href="https://www.thecoaches.co.jp/" target="_blank" class="fr-inline-block fr-text-[10px] md:fr-text-[12px] fr-text-gray-400 hover:fr-text-fr-main fr-transition-all fr-underline fr-font-bold pointer-events-auto">
                         CTI JAPAN 公式サイト ↗
@@ -391,7 +397,7 @@
             </div>
         </section>
 
-        <!-- SECTION 5: Flow -->
+        <!-- SECTION 5: Flow (Restored Content) -->
         <section id="section-5" class="fr-min-h-screen fr-flex fr-flex-col fr-items-center fr-justify-center fr-py-20 fr-px-4">
             <div class="fr-container fr-mx-auto fr-max-w-3xl fr-text-center">
                 <h2 class="fr-text-2xl md:fr-text-4xl fr-font-black fr-mb-12" data-i18n="s5_title">具体的な流れ</h2>
@@ -465,7 +471,7 @@
                     <!-- Step 4 -->
                     <div class="fr-flex fr-gap-4 fr-relative fr-z-10 fr-mb-1">
                         <div class="fr-flex fr-flex-col fr-items-center">
-                            <div class="fr-w-10 fr-h-10 fr-rounded-full fr-bg-white fr-border-2 fr-border-gray-200 fr-text-gray-400 fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm fr-shrink-0">4</div>
+                            <div class="fr-w-10 fr-h-10 fr-rounded-full fr-bg-white fr-border-2 fr-border-gray-400 fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm fr-shrink-0">4</div>
                             <div class="fr-w-0.5 fr-h-full fr-bg-gray-200"></div>
                         </div>
                         <div class="soft-card fr-p-5 fr-flex-1 fr-mb-4">
@@ -489,7 +495,7 @@
                     <!-- Step 5 -->
                     <div class="fr-flex fr-gap-4 fr-relative fr-z-10">
                         <div class="fr-flex fr-flex-col fr-items-center">
-                            <div class="fr-w-10 fr-h-10 fr-rounded-full fr-bg-white fr-border-2 fr-border-gray-200 fr-text-gray-400 fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm fr-shrink-0">5</div>
+                            <div class="fr-w-10 fr-h-10 fr-rounded-full fr-bg-white fr-border-2 fr-border-gray-400 fr-flex fr-items-center fr-justify-center fr-font-bold fr-text-sm fr-shrink-0">5</div>
                         </div>
                         <div class="soft-card fr-p-5 fr-flex-1">
                             <div class="fr-flex fr-justify-between fr-items-center">
@@ -517,11 +523,11 @@
 
     </main>
 
-    <!-- Sub Page 1 -->
+    <!-- Sub Page 1: Sample Prep -->
     <div id="sub-page-prep" class="sub-page">
         <div class="fr-p-4 fr-sticky fr-top-0 fr-bg-white/90 fr-backdrop-blur fr-border-b fr-flex fr-justify-between fr-items-center">
             <h2 class="fr-font-bold">サンプルセッションの手順</h2>
-            <button onclick="hideSubPage()" class="btn-secondary pointer-events-auto">閉じる</button>
+            <button onclick="hideSubPage()" class="btn-secondary pointer-events-auto fr-w-auto">閉じる</button>
         </div>
         <div class="fr-container fr-mx-auto fr-px-6 fr-py-12 fr-max-w-xl">
             <div class="fr-space-y-10">
@@ -555,11 +561,11 @@
         </div>
     </div>
 
-    <!-- Sub Page 2 -->
+    <!-- Sub Page 2: Discovery Intro -->
     <div id="sub-page-intro" class="sub-page">
         <div class="fr-p-4 fr-sticky fr-top-0 fr-bg-white/90 fr-backdrop-blur fr-border-b fr-flex fr-justify-between fr-items-center">
             <h2 class="fr-font-bold" data-i18n="intro_title">導入セッションについて</h2>
-            <button onclick="hideSubPage()" class="btn-secondary pointer-events-auto">閉じる</button>
+            <button onclick="hideSubPage()" class="btn-secondary pointer-events-auto fr-w-auto">閉じる</button>
         </div>
         <div class="fr-container fr-mx-auto fr-px-6 fr-py-12 fr-max-w-2xl">
             <p class="fr-text-base fr-text-gray-600 fr-mb-8 fr-leading-relaxed" data-i18n="intro_desc">
@@ -567,8 +573,8 @@
             </p>
             <div class="soft-card fr-p-6 fr-bg-white">
                 <h3 class="fr-font-bold fr-text-fr-text fr-mb-4" data-i18n="intro_img_title">リソースの全体像</h3>
-                <div class="img-container fr-w-full fr-min-h-[200px]">
-                    <img src="resources_map.png" alt="リソース全体像" class="fr-w-full fr-h-auto fr-block" style="min-height: 50px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                <div class="img-container fr-w-full fr-min-h-[200px] fr-p-2">
+                    <img src="resources_map.png" alt="リソース全体像" class="fr-w-full fr-h-auto fr-rounded-xl fr-block" style="min-height: 50px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
                     <span class="fr-text-gray-400 fr-font-bold fr-hidden">画像が見つかりません</span>
                 </div>
             </div>
@@ -606,7 +612,7 @@
                 s3_c3_title: "メンター",
                 s3_c3_text: "自らの「経験」から助言し、成長を導く",
                 s3_c4_title: "カウンセラー",
-                s3_c4_text: "過去の傷や不調の「癒し」をサポートする",
+                s3_c4_text: "過去の傷や心理的な不調の「癒し」をサポートする",
                 s4_title: "提供するのはCo-Activeコーチング",
                 s4_main_title: "「話すテーマ」は、<br>きっかけに過ぎません",
                 s4_main_text: "具体的な悩みや目標の裏側にある、あなた自身の本当の願いや可能性を探求します。",
@@ -635,7 +641,7 @@
                 s1_line_text: "Inquiries & Sample Session",
                 s2_title: "Profile",
                 s2_profile_age: "20s / Agile Coach",
-                s2_profile_bio: "IT Engineer/ScM background, now Agile Coach in FinTech. Practicing Co-Active coaching both inside and outside the organization.",
+                s2_profile_bio: "IT Engineer/ScM background, now Agile Coach in FinTech. Practicing Co-Active coaching inside and outside the org.",
                 s3_title: "What is Coaching?",
                 s3_main_title: "Communication unlocking<br>the power of action",
                 s3_main_text: "A technology that transforms your unique <span class='fr-text-fr-main fr-font-bold'>emotions</span> and <span class='fr-text-fr-main fr-font-bold'>thoughts</span> into <span class='marker-line'>power for action</span>.",
