@@ -36,6 +36,7 @@
                     boxShadow: {
                         'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
                         'card': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
+                        'inner-soft': 'inset 0 2px 8px rgba(0, 0, 0, 0.04)',
                     }
                 }
             }
@@ -121,6 +122,33 @@
             visibility: visible;
         }
 
+        /* 共通ボタン（詳細・手順用） */
+        .btn-secondary {
+            background-color: #f1f5f9; /* slate-100 */
+            color: #475569; /* slate-600 */
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.625rem 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* 画像コンテナの共通デザイン */
+        .img-container {
+            background-color: #FFFFFF;
+            padding: 0.5rem;
+            border-radius: 1.25rem;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
         /* セクション */
         #coaching-lp section {
             position: relative;
@@ -204,7 +232,7 @@
                 </div>
 
                 <div class="soft-card fr-p-6 fr-inline-flex fr-flex-col fr-items-center fr-justify-center fr-bg-white/80">
-                    <div class="fr-bg-white fr-p-2 fr-rounded-xl fr-mb-3 fr-shadow-inner fr-w-36 fr-h-36 md:fr-w-44 md:fr-h-44 fr-flex fr-items-center fr-justify-center fr-overflow-hidden">
+                    <div class="img-container fr-mb-3 fr-w-36 fr-h-36 md:fr-w-44 md:fr-h-44">
                         <img src="qr_code_line.png" alt="LINE QR" class="fr-max-w-full fr-max-h-full fr-object-contain" onerror="this.style.display='none';this.parentElement.innerText='QR CODE'">
                     </div>
                     <p class="fr-text-xs fr-font-bold fr-mb-3 fr-text-gray-500" data-i18n="s1_line_text">お問い合わせ・サンプル相談</p>
@@ -226,8 +254,8 @@
                 <div class="fr-grid fr-grid-cols-1 md:fr-grid-cols-12 fr-gap-12">
                     <!-- Profile Column -->
                     <div class="fr-col-span-12 md:fr-col-span-5 fr-flex fr-flex-col fr-items-center md:fr-items-start">
-                        <div class="fr-w-32 fr-h-32 md:fr-w-48 md:fr-h-48 fr-rounded-full fr-bg-gray-200 fr-flex fr-items-center fr-justify-center fr-border-4 fr-border-white fr-shadow-md fr-mb-6 fr-overflow-hidden">
-                             <img src="sambnail.png" alt="日下" class="fr-w-full fr-h-full fr-object-cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'fr-text-gray-400 fr-font-bold fr-text-xs\'>[Face Image]</span>'">
+                        <div class="fr-w-32 fr-h-32 md:fr-w-48 md:fr-h-48 fr-rounded-full fr-bg-white fr-p-1 fr-shadow-md fr-mb-6 fr-overflow-hidden fr-flex fr-items-center fr-justify-center">
+                             <img src="sambnail.png" alt="日下" class="fr-w-full fr-h-full fr-object-cover fr-rounded-full" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'fr-text-gray-400 fr-font-bold fr-text-xs\'>[Face Image]</span>'">
                         </div>
                         <div class="fr-text-center md:fr-text-left">
                             <h3 class="fr-text-xl md:fr-text-2xl fr-font-bold fr-text-fr-text fr-mb-2">日下 (Kusaka)</h3>
@@ -301,13 +329,11 @@
                     </p>
                 </div>
 
-                <!-- Difference Subtitle -->
                 <div class="fr-mt-12 fr-mb-12 fr-text-center">
                     <p class="fr-text-gray-400 fr-font-black fr-text-xs fr-tracking-[0.3em] fr-mb-2 uppercase" data-i18n="s3_diff_title">支援のスタイルの違い</p>
                     <div class="fr-w-12 fr-h-1 fr-bg-fr-main/20 fr-mx-auto fr-rounded-full"></div>
                 </div>
 
-                <!-- Comparison Grid -->
                 <div class="fr-grid fr-grid-cols-1 md:fr-grid-cols-3 fr-gap-8 md:fr-gap-10">
                     <div class="soft-card fr-p-8 fr-flex fr-flex-col fr-items-center fr-text-center hover:fr-bg-white transition-all">
                         <div class="fr-text-4xl fr-mb-4">👔</div>
@@ -356,7 +382,6 @@
                     </div>
                 </div>
                 
-                <!-- CTI Info -->
                 <div class="fr-mt-16 fr-text-center">
                     <a href="https://www.thecoaches.co.jp/" target="_blank" class="fr-inline-block fr-text-[10px] md:fr-text-[12px] fr-text-gray-400 hover:fr-text-fr-main fr-transition-all fr-underline fr-font-bold pointer-events-auto">
                         CTI JAPAN 公式サイト ↗
@@ -408,7 +433,7 @@
                                 <a href="https://lin.ee/5xxEj6Y" target="_blank" class="fr-flex-1 fr-bg-fr-line fr-text-white fr-text-xs fr-font-bold fr-py-2.5 fr-rounded-xl fr-text-center shadow-sm hover:fr-opacity-90 fr-transition pointer-events-auto">
                                     LINE公式アカウント
                                 </a>
-                                <button onclick="showSubPage('sub-page-prep')" class="fr-flex-1 fr-bg-gray-100 fr-text-gray-600 fr-text-xs fr-font-bold fr-py-2.5 fr-rounded-xl fr-text-center hover:fr-bg-gray-200 fr-transition pointer-events-auto" data-i18n="s5_s2_detail">
+                                <button onclick="showSubPage('sub-page-prep')" class="fr-flex-1 btn-secondary pointer-events-auto" data-i18n="s5_s2_detail">
                                     手順を見る
                                 </button>
                             </div>
@@ -457,7 +482,7 @@
                                     <p class="fr-text-sm fr-font-black fr-text-fr-main">2,000円</p>
                                 </div>
                             </div>
-                            <button onclick="showSubPage('sub-page-intro')" class="fr-mt-3 fr-w-full fr-bg-gray-50 fr-text-gray-500 fr-text-[10px] fr-py-1.5 fr-rounded-lg fr-font-bold hover:fr-bg-gray-100 pointer-events-auto">導入セッションの詳細</button>
+                            <button onclick="showSubPage('sub-page-intro')" class="fr-mt-4 fr-w-full btn-secondary pointer-events-auto" data-i18n="s5_s4_detail">詳細を見る</button>
                         </div>
                     </div>
 
@@ -492,11 +517,11 @@
 
     </main>
 
-    <!-- Sub Page 1: Sample Prep -->
+    <!-- Sub Page 1 -->
     <div id="sub-page-prep" class="sub-page">
         <div class="fr-p-4 fr-sticky fr-top-0 fr-bg-white/90 fr-backdrop-blur fr-border-b fr-flex fr-justify-between fr-items-center">
             <h2 class="fr-font-bold">サンプルセッションの手順</h2>
-            <button onclick="hideSubPage()" class="fr-bg-gray-200 fr-px-4 fr-py-2 fr-rounded-full fr-text-xs fr-font-bold pointer-events-auto">閉じる</button>
+            <button onclick="hideSubPage()" class="btn-secondary pointer-events-auto">閉じる</button>
         </div>
         <div class="fr-container fr-mx-auto fr-px-6 fr-py-12 fr-max-w-xl">
             <div class="fr-space-y-10">
@@ -504,9 +529,11 @@
                     <span class="fr-w-8 fr-h-8 fr-bg-fr-main fr-text-white fr-rounded-full fr-flex fr-items-center fr-justify-center fr-font-bold fr-shrink-0">1</span>
                     <div>
                         <h3 class="fr-font-bold fr-mb-2">LINE公式アカウントを追加</h3>
-                        <div class="soft-card fr-p-6 fr-text-center">
-                            <img src="qr_code_line.png" alt="LINE" class="fr-w-24 fr-h-24 fr-mx-auto fr-mb-3" onerror="this.style.display='none';this.parentElement.innerText='QR'">
-                            <a href="https://lin.ee/5xxEj6Y" target="_blank" class="fr-bg-fr-line fr-text-white fr-px-6 fr-py-2 fr-rounded-full fr-font-bold fr-text-xs pointer-events-auto">追加はこちらから</a>
+                        <div class="img-container fr-p-6 fr-w-40 fr-h-40 fr-mx-auto fr-mb-3">
+                            <img src="qr_code_line.png" alt="LINE" class="fr-max-w-full fr-max-h-full fr-object-contain" onerror="this.style.display='none';this.parentElement.innerText='QR'">
+                        </div>
+                        <div class="fr-text-center">
+                            <a href="https://lin.ee/5xxEj6Y" target="_blank" class="fr-text-fr-line fr-font-bold fr-text-xs pointer-events-auto">追加はこちらから</a>
                         </div>
                     </div>
                 </div>
@@ -528,11 +555,11 @@
         </div>
     </div>
 
-    <!-- Sub Page 2: Discovery Intro -->
+    <!-- Sub Page 2 -->
     <div id="sub-page-intro" class="sub-page">
         <div class="fr-p-4 fr-sticky fr-top-0 fr-bg-white/90 fr-backdrop-blur fr-border-b fr-flex fr-justify-between fr-items-center">
             <h2 class="fr-font-bold" data-i18n="intro_title">導入セッションについて</h2>
-            <button onclick="hideSubPage()" class="fr-bg-gray-200 fr-px-4 fr-py-2 fr-rounded-full fr-text-xs fr-font-bold pointer-events-auto">閉じる</button>
+            <button onclick="hideSubPage()" class="btn-secondary pointer-events-auto">閉じる</button>
         </div>
         <div class="fr-container fr-mx-auto fr-px-6 fr-py-12 fr-max-w-2xl">
             <p class="fr-text-base fr-text-gray-600 fr-mb-8 fr-leading-relaxed" data-i18n="intro_desc">
@@ -540,9 +567,9 @@
             </p>
             <div class="soft-card fr-p-6 fr-bg-white">
                 <h3 class="fr-font-bold fr-text-fr-text fr-mb-4" data-i18n="intro_img_title">リソースの全体像</h3>
-                <div class="fr-w-full fr-min-h-[200px] fr-bg-gray-100 fr-rounded-xl fr-flex fr-items-center fr-justify-center fr-border-2 fr-border-dashed fr-border-gray-300 fr-overflow-hidden">
+                <div class="img-container fr-w-full fr-min-h-[200px]">
                     <img src="resources_map.png" alt="リソース全体像" class="fr-w-full fr-h-auto fr-block" style="min-height: 50px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-                    <span class="fr-text-gray-400 fr-font-bold fr-hidden">画像が見つかりません (resources_map.png)</span>
+                    <span class="fr-text-gray-400 fr-font-bold fr-hidden">画像が見つかりません</span>
                 </div>
             </div>
         </div>
@@ -555,6 +582,10 @@
                 s1_title: "コーチングって何？ 🌱",
                 s1_desc: "見てくれてありがとうございます！<br>ここは、日下が学んでいる<strong>「コーチング」</strong>についてと、<br><strong>「サンプルセッション（お試し）」</strong>の受け方について、<br>サクッとわかるようにまとめたページです。",
                 s1_line_text: "お問い合わせ・サンプル相談",
+                s1_step_title: "サンプルセッションまでの流れ",
+                s1_step1: "LINE追加",
+                s1_step2: "日程調整",
+                s1_step3: "体験(無料)",
                 s2_title: "自己紹介",
                 s2_profile_age: "20代 / アジャイルコーチ",
                 s2_profile_bio: "IT企業でエンジニア・ScMを経験し、現在は金融IT系企業でアジャイルコーチとして働きながら社内外でCo-Activeコーチングを実践しています。「人の可能性を信じる」関わりに魅了され、プロコーチへの道を進んでいます。",
@@ -575,7 +606,7 @@
                 s3_c3_title: "メンター",
                 s3_c3_text: "自らの「経験」から助言し、成長を導く",
                 s3_c4_title: "カウンセラー",
-                s3_c4_text: "過去の傷や心理的な不調の「癒し」をサポートする",
+                s3_c4_text: "過去の傷や不調の「癒し」をサポートする",
                 s4_title: "提供するのはCo-Activeコーチング",
                 s4_main_title: "「話すテーマ」は、<br>きっかけに過ぎません",
                 s4_main_text: "具体的な悩みや目標の裏側にある、あなた自身の本当の願いや可能性を探求します。",
